@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"><defs><filter id="sh" x="-5%" y="-5%" width="110%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0E2A1E" flood-opacity="0.07"/></filter></defs><rect x="0" y="0" width="1280" height="800" rx="0" fill="#F3F5F7" stroke="none" stroke-width="1" />
+<rect x="0" y="0" width="1280" height="64" rx="0" fill="#fff" stroke="none" stroke-width="1" />
+<line x1="0" y1="64" x2="1280" y2="64" stroke="#E3E7EB"/>
+<rect x="20" y="14" width="36" height="36" rx="10" fill="#1E8E55" stroke="none" stroke-width="1" />
+<circle cx="38" cy="32" r="10" fill="none" stroke="#fff" stroke-width="2.5"/>
+<polygon points="38,27 42.5,30.3 40.8,35.6 35.2,35.6 33.5,30.3" fill="#fff"/>
+<text x="68" y="39" font-size="20" fill="#0E2A1E" font-weight="700" text-anchor="start" >ClubManager</text>
+<rect x="880" y="16" width="200" height="32" rx="16" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" />
+<text x="898" y="37" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Ekipa:</text><text x="942" y="37" font-size="13" fill="#17212B" font-weight="700" text-anchor="start" >U15</text><text x="1062" y="37" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >▾</text>
+<circle cx="1116" cy="32" r="17" fill="#E3F4EA"/><text x="1116" y="36" font-size="12" fill="#1E8E55" font-weight="700" text-anchor="middle" >JK</text>
+<text x="1142" y="37" font-size="14" fill="#17212B" font-weight="600" text-anchor="start" >Jan Kovač</text>
+<rect x="0" y="64" width="220" height="736" rx="0" fill="#0E2A1E" stroke="none" stroke-width="1" />
+<text x="24" y="98" font-size="11" fill="#6F937F" font-weight="700" text-anchor="start" letter-spacing="1.5">MENI</text>
+<rect x="28" y="125" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="137" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Nadzorna plošča</text>
+<rect x="28" y="171" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="183" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Treningi</text>
+<rect x="12" y="204" width="196" height="40" rx="8" fill="#1E8E55" stroke="none" stroke-width="1" />
+<rect x="28" y="217" width="14" height="14" rx="4" fill="none" stroke="#fff" stroke-width="2" />
+<text x="54" y="229" font-size="14" fill="#fff" font-weight="700" text-anchor="start" >Tekme</text>
+<rect x="28" y="263" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="275" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Razpoložljivost</text>
+<rect x="28" y="309" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="321" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Statistika ekipe</text>
+<rect x="28" y="355" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="367" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Igralci</text>
+<line x1="24" y1="744" x2="196" y2="744" stroke="#24453A"/>
+<text x="28" y="776" font-size="14" fill="#8FB3A0" font-weight="500" text-anchor="start" >↩  Odjava</text>
+<text x="244" y="94" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Tekme  /  U15 – NK Rudar</text>
+<text x="244" y="126" font-size="26" fill="#17212B" font-weight="700" text-anchor="start" >Poročilo o tekmi</text>
+<text x="244" y="152" font-size="14" fill="#6B7785" font-weight="400" text-anchor="start" >Sob, 18. 10. 2026 · 10:00 · Domača · Prvenstvo</text>
+<rect x="1166" y="108" width="90" height="26" rx="13.0" fill="#FFF3D1" stroke="none" stroke-width="1" /><text x="1211.0" y="125.32" font-size="12" fill="#C98A00" font-weight="700" text-anchor="middle" >Odigrana</text>
+<rect x="244" y="172" width="1012" height="96" rx="14" fill="#0E2A1E" stroke="none" stroke-width="1" filter="url(#sh)"/>
+<text x="560" y="214" font-size="22" fill="#fff" font-weight="700" text-anchor="end" >U15</text>
+<text x="560" y="238" font-size="12" fill="#8FB3A0" font-weight="500" text-anchor="end" >domači</text>
+<rect x="584" y="190" width="64" height="60" rx="10" fill="#fff" stroke="none" stroke-width="1" /><text x="616" y="232" font-size="32" fill="#17212B" font-weight="700" text-anchor="middle" >2</text>
+<text x="670" y="230" font-size="30" fill="#fff" font-weight="700" text-anchor="middle" >:</text>
+<rect x="692" y="190" width="64" height="60" rx="10" fill="#fff" stroke="none" stroke-width="1" /><text x="724" y="232" font-size="32" fill="#17212B" font-weight="700" text-anchor="middle" >1</text>
+<text x="780" y="214" font-size="22" fill="#fff" font-weight="700" text-anchor="start" >NK Rudar</text>
+<text x="780" y="238" font-size="12" fill="#8FB3A0" font-weight="500" text-anchor="start" >gosti</text>
+<rect x="244" y="288" width="500" height="488" rx="14" fill="#fff" stroke="#E3E7EB" stroke-width="1" filter="url(#sh)"/>
+<text x="268" y="322" font-size="16" fill="#17212B" font-weight="700" text-anchor="start" >Začetna postava</text>
+<rect x="402" y="306" width="72" height="22" rx="11.0" fill="#E3F4EA" stroke="none" stroke-width="1" /><text x="438.0" y="321.32" font-size="12" fill="#1E8E55" font-weight="700" text-anchor="middle" >11 / 11</text>
+<text x="720" y="322" font-size="11" fill="#6B7785" font-weight="700" text-anchor="end" letter-spacing="0.8">MINUTE</text>
+<rect x="268" y="336" width="452" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="276" y="342" width="26" height="22" rx="6" fill="#EEF1F4" stroke="none" stroke-width="1" /><text x="289" y="358" font-size="12" fill="#17212B" font-weight="700" text-anchor="middle" >1</text>
+<text x="314" y="358" font-size="14" fill="#17212B" font-weight="500" text-anchor="start" >Luka Novak (GK)</text>
+<circle cx="548" cy="353" r="5" fill="#1E8E55"/><text x="560" y="358" font-size="12" fill="#1E8E55" font-weight="600" text-anchor="start" >Na voljo</text>
+<rect x="652" y="341" width="60" height="24" rx="6" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" /><text x="682" y="358" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >90</text>
+<rect x="268" y="376" width="452" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="276" y="382" width="26" height="22" rx="6" fill="#EEF1F4" stroke="none" stroke-width="1" /><text x="289" y="398" font-size="12" fill="#17212B" font-weight="700" text-anchor="middle" >4</text>
+<text x="314" y="398" font-size="14" fill="#17212B" font-weight="500" text-anchor="start" >Tim Horvat</text>
+<circle cx="548" cy="393" r="5" fill="#1E8E55"/><text x="560" y="398" font-size="12" fill="#1E8E55" font-weight="600" text-anchor="start" >Na voljo</text>
+<rect x="652" y="381" width="60" height="24" rx="6" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" /><text x="682" y="398" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >90</text>
+<rect x="268" y="416" width="452" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="276" y="422" width="26" height="22" rx="6" fill="#EEF1F4" stroke="none" stroke-width="1" /><text x="289" y="438" font-size="12" fill="#17212B" font-weight="700" text-anchor="middle" >7</text>
+<text x="314" y="438" font-size="14" fill="#17212B" font-weight="500" text-anchor="start" >Miha Potočnik</text>
+<circle cx="548" cy="433" r="5" fill="#1E8E55"/><text x="560" y="438" font-size="12" fill="#1E8E55" font-weight="600" text-anchor="start" >Na voljo</text>
+<rect x="652" y="421" width="60" height="24" rx="6" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" /><text x="682" y="438" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >65</text>
+<rect x="268" y="456" width="452" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="276" y="462" width="26" height="22" rx="6" fill="#EEF1F4" stroke="none" stroke-width="1" /><text x="289" y="478" font-size="12" fill="#17212B" font-weight="700" text-anchor="middle" >9</text>
+<text x="314" y="478" font-size="14" fill="#17212B" font-weight="500" text-anchor="start" >Nik Zupan</text>
+<circle cx="548" cy="473" r="5" fill="#C98A00"/><text x="560" y="478" font-size="12" fill="#C98A00" font-weight="600" text-anchor="start" >Omejeno</text>
+<rect x="652" y="461" width="60" height="24" rx="6" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" /><text x="682" y="478" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >90</text>
+<text x="276" y="514" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >… še 7 igralcev</text>
+<text x="268" y="540" font-size="16" fill="#17212B" font-weight="700" text-anchor="start" >Klop</text>
+<rect x="268" y="554" width="452" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="276" y="560" width="26" height="22" rx="6" fill="#EEF1F4" stroke="none" stroke-width="1" /><text x="289" y="576" font-size="12" fill="#17212B" font-weight="700" text-anchor="middle" >14</text>
+<text x="314" y="576" font-size="14" fill="#17212B" font-weight="500" text-anchor="start" >Žan Krajnc</text>
+<circle cx="548" cy="571" r="5" fill="#1E8E55"/><text x="560" y="576" font-size="12" fill="#1E8E55" font-weight="600" text-anchor="start" >Na voljo</text>
+<rect x="652" y="559" width="60" height="24" rx="6" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" /><text x="682" y="576" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >25</text>
+<rect x="268" y="594" width="452" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="276" y="600" width="26" height="22" rx="6" fill="#EEF1F4" stroke="none" stroke-width="1" /><text x="289" y="616" font-size="12" fill="#17212B" font-weight="700" text-anchor="middle" >16</text>
+<text x="314" y="616" font-size="14" fill="#17212B" font-weight="500" text-anchor="start" >Rok Mlakar</text>
+<circle cx="548" cy="611" r="5" fill="#1E8E55"/><text x="560" y="616" font-size="12" fill="#1E8E55" font-weight="600" text-anchor="start" >Na voljo</text>
+<rect x="652" y="599" width="60" height="24" rx="6" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" /><text x="682" y="616" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >0</text>
+<rect x="268" y="642" width="170" height="34" rx="8" fill="#fff" stroke="#1E8E55" stroke-width="1.5" stroke-dasharray="5 3"/><text x="353" y="664" font-size="13" fill="#1E8E55" font-weight="700" text-anchor="middle" >+ Dodaj igralca</text>
+<circle cx="274" cy="708" r="5" fill="#1E8E55"/><text x="284" y="712" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >Na voljo</text>
+<circle cx="352" cy="708" r="5" fill="#C98A00"/><text x="362" y="712" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >Omejeno treniranje</text>
+<circle cx="490" cy="708" r="5" fill="#D04444"/><text x="500" y="712" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >Poškodovan / odsoten (opozorilo)</text>
+<text x="268" y="744" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >Izbrati je mogoče samo igralce z veljavnim članstvom na dan tekme.</text>
+<rect x="764" y="288" width="492" height="380" rx="14" fill="#fff" stroke="#E3E7EB" stroke-width="1" filter="url(#sh)"/>
+<text x="788" y="322" font-size="16" fill="#17212B" font-weight="700" text-anchor="start" >Dogodki na tekmi</text>
+<rect x="788" y="338" width="444" height="38" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<text x="812" y="362" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >12'</text>
+<line x1="834" y1="346" x2="834" y2="368" stroke="#E3E7EB"/>
+<circle cx="850" cy="357" r="7" fill="#fff" stroke="#17212B" stroke-width="1.5"/><circle cx="850" cy="357" r="2.5" fill="#17212B"/>
+<text x="870" y="362" font-size="13" fill="#17212B" font-weight="600" text-anchor="start" >Gol – Nik Zupan</text>
+<text x="985" y="362" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >asist. Tim Horvat</text>
+<text x="1220" y="362" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >✎</text>
+<rect x="788" y="382" width="444" height="38" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<text x="812" y="406" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >38'</text>
+<line x1="834" y1="390" x2="834" y2="412" stroke="#E3E7EB"/>
+<rect x="845" y="394" width="10" height="14" rx="2" fill="#F2C200" stroke="none" stroke-width="1" />
+<text x="870" y="406" font-size="13" fill="#17212B" font-weight="600" text-anchor="start" >Rumeni karton – Tim Horvat</text>
+<text x="1220" y="406" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >✎</text>
+<rect x="788" y="426" width="444" height="38" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<text x="812" y="450" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >65'</text>
+<line x1="834" y1="434" x2="834" y2="456" stroke="#E3E7EB"/>
+<text x="850" y="450" font-size="15" fill="#1E8E55" font-weight="700" text-anchor="middle" >⇄</text>
+<text x="870" y="450" font-size="13" fill="#17212B" font-weight="600" text-anchor="start" >Menjava</text>
+<text x="926" y="450" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >ven M. Potočnik · noter Ž. Krajnc</text>
+<text x="1220" y="450" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >✎</text>
+<rect x="788" y="470" width="444" height="38" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<text x="812" y="494" font-size="13" fill="#17212B" font-weight="700" text-anchor="middle" >81'</text>
+<line x1="834" y1="478" x2="834" y2="500" stroke="#E3E7EB"/>
+<circle cx="850" cy="489" r="7" fill="#fff" stroke="#17212B" stroke-width="1.5"/><circle cx="850" cy="489" r="2.5" fill="#17212B"/>
+<text x="870" y="494" font-size="13" fill="#17212B" font-weight="600" text-anchor="start" >Gol – Žan Krajnc</text>
+<text x="1220" y="494" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >✎</text>
+<rect x="788" y="522" width="444" height="74" rx="10" fill="#F3F5F7" stroke="none" stroke-width="1" />
+<rect x="800" y="532" width="120" height="32" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="812" y="553.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Vrsta</text><text x="906" y="553.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >▾</text>
+<rect x="928" y="532" width="170" height="32" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="940" y="553.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Igralec</text><text x="1084" y="553.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >▾</text>
+<rect x="1106" y="532" width="70" height="32" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="1118" y="553.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Min.</text>
+<rect x="1184" y="532" width="36" height="32" rx="8" fill="#1E8E55" stroke="none" stroke-width="1" /><text x="1202" y="554" font-size="18" fill="#fff" font-weight="700" text-anchor="middle" >+</text>
+<text x="800" y="586" font-size="11" fill="#6B7785" font-weight="400" text-anchor="start" >Minuta 1–120 · asistenca ne more biti strelec gola</text>
+<rect x="788" y="608" width="444" height="44" rx="10" fill="#E3F4EA" stroke="none" stroke-width="1" />
+<circle cx="810" cy="630" r="9" fill="#1E8E55"/><text x="810" y="634" font-size="11" fill="#fff" font-weight="700" text-anchor="middle" >✓</text>
+<text x="828" y="635" font-size="13" fill="#1E8E55" font-weight="600" text-anchor="start" >Postava 11/11 · goli (2) se ujemajo z rezultatom</text>
+<rect x="764" y="688" width="160" height="48" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="844.0" y="717.0" font-size="14" fill="#17212B" font-weight="600" text-anchor="middle" >Shrani osnutek</text>
+<rect x="936" y="688" width="320" height="48" rx="8" fill="#1E8E55" stroke="none" stroke-width="1" /><text x="1096.0" y="717.0" font-size="14" fill="#fff" font-weight="700" text-anchor="middle" >Potrdi poročilo</text>
+<text x="764" y="762" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >Po potrditvi tekma dobi status »Zaključena« in se upošteva v statistiki.</text></svg>

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"><defs><filter id="sh" x="-5%" y="-5%" width="110%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0E2A1E" flood-opacity="0.07"/></filter></defs><rect x="0" y="0" width="1280" height="800" rx="0" fill="#F3F5F7" stroke="none" stroke-width="1" />
+<rect x="0" y="0" width="1280" height="64" rx="0" fill="#fff" stroke="none" stroke-width="1" />
+<line x1="0" y1="64" x2="1280" y2="64" stroke="#E3E7EB"/>
+<rect x="20" y="14" width="36" height="36" rx="10" fill="#1E8E55" stroke="none" stroke-width="1" />
+<circle cx="38" cy="32" r="10" fill="none" stroke="#fff" stroke-width="2.5"/>
+<polygon points="38,27 42.5,30.3 40.8,35.6 35.2,35.6 33.5,30.3" fill="#fff"/>
+<text x="68" y="39" font-size="20" fill="#0E2A1E" font-weight="700" text-anchor="start" >ClubManager</text>
+<rect x="880" y="16" width="200" height="32" rx="16" fill="#F3F5F7" stroke="#E3E7EB" stroke-width="1" />
+<text x="898" y="37" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Ekipa:</text><text x="942" y="37" font-size="13" fill="#17212B" font-weight="700" text-anchor="start" >Člani</text><text x="1062" y="37" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >▾</text>
+<circle cx="1116" cy="32" r="17" fill="#E3F4EA"/><text x="1116" y="36" font-size="12" fill="#1E8E55" font-weight="700" text-anchor="middle" >JK</text>
+<text x="1142" y="37" font-size="14" fill="#17212B" font-weight="600" text-anchor="start" >Jan Kovač</text>
+<rect x="0" y="64" width="220" height="736" rx="0" fill="#0E2A1E" stroke="none" stroke-width="1" />
+<text x="24" y="98" font-size="11" fill="#6F937F" font-weight="700" text-anchor="start" letter-spacing="1.5">MENI</text>
+<rect x="12" y="112" width="196" height="40" rx="8" fill="#1E8E55" stroke="none" stroke-width="1" />
+<rect x="28" y="125" width="14" height="14" rx="4" fill="none" stroke="#fff" stroke-width="2" />
+<text x="54" y="137" font-size="14" fill="#fff" font-weight="700" text-anchor="start" >Nadzorna plošča</text>
+<rect x="28" y="171" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="183" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Razpored</text>
+<rect x="28" y="217" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="229" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Moja razpoložljivost</text>
+<rect x="28" y="263" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="275" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Moja statistika</text>
+<rect x="28" y="309" width="14" height="14" rx="4" fill="none" stroke="#6F937F" stroke-width="2" />
+<text x="54" y="321" font-size="14" fill="#BFD6C8" font-weight="500" text-anchor="start" >Moje ekipe</text>
+<line x1="24" y1="744" x2="196" y2="744" stroke="#24453A"/>
+<text x="28" y="776" font-size="14" fill="#8FB3A0" font-weight="500" text-anchor="start" >↩  Odjava</text>
+<text x="244" y="108" font-size="26" fill="#17212B" font-weight="700" text-anchor="start" >Pozdravljen, Jan</text>
+<text x="244" y="134" font-size="14" fill="#6B7785" font-weight="400" text-anchor="start" >Sezona 2026/27 · Člani (igralec) · U19 (igralec)</text>
+<rect x="244" y="156" width="640" height="620" rx="14" fill="#fff" stroke="#E3E7EB" stroke-width="1" filter="url(#sh)"/>
+<text x="268" y="192" font-size="18" fill="#17212B" font-weight="700" text-anchor="start" >Prihajajoče aktivnosti</text>
+<text x="860" y="192" font-size="13" fill="#1E8E55" font-weight="600" text-anchor="end" >Ves razpored →</text>
+<rect x="268" y="212" width="592" height="96" rx="10" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="280" y="224" width="58" height="72" rx="8" fill="#E3F4EA" stroke="none" stroke-width="1" />
+<text x="309" y="258" font-size="24" fill="#1E8E55" font-weight="700" text-anchor="middle" >23</text>
+<text x="309" y="280" font-size="12" fill="#1E8E55" font-weight="700" text-anchor="middle" >OKT</text>
+<rect x="354" y="226" width="67" height="22" rx="11.0" fill="#E3F4EA" stroke="none" stroke-width="1" /><text x="387.5" y="240.96" font-size="11" fill="#1E8E55" font-weight="700" text-anchor="middle" >TRENING</text>
+<text x="431" y="242" font-size="15" fill="#17212B" font-weight="700" text-anchor="start" >Člani</text>
+<text x="354" y="270" font-size="14" fill="#17212B" font-weight="400" text-anchor="start" >Čet · 18:00–19:30 · Glavno igrišče</text>
+<text x="354" y="292" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >14 pride · 2 odsotna · 6 brez odgovora</text>
+<rect x="672" y="236" width="88" height="34" rx="8" fill="#1E8E55" stroke="none" stroke-width="1" /><text x="716.0" y="258.0" font-size="14" fill="#fff" font-weight="700" text-anchor="middle" >✓ Pridem</text>
+<rect x="768" y="236" width="80" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="808.0" y="258.0" font-size="14" fill="#17212B" font-weight="600" text-anchor="middle" >Ne pridem</text>
+<rect x="268" y="320" width="592" height="96" rx="10" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="280" y="332" width="58" height="72" rx="8" fill="#E7EEFC" stroke="none" stroke-width="1" />
+<text x="309" y="366" font-size="24" fill="#2F6FDB" font-weight="700" text-anchor="middle" >25</text>
+<text x="309" y="388" font-size="12" fill="#2F6FDB" font-weight="700" text-anchor="middle" >OKT</text>
+<rect x="354" y="334" width="54" height="22" rx="11.0" fill="#E7EEFC" stroke="none" stroke-width="1" /><text x="381.0" y="348.96" font-size="11" fill="#2F6FDB" font-weight="700" text-anchor="middle" >TEKMA</text>
+<text x="418" y="350" font-size="15" fill="#17212B" font-weight="700" text-anchor="start" >Člani – NK Rudar</text>
+<text x="354" y="378" font-size="14" fill="#17212B" font-weight="400" text-anchor="start" >Sob · 16:00 · Gostujoča · Prvenstvo</text>
+<text x="354" y="400" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Stadion Velenje</text>
+<rect x="752" y="334" width="96" height="22" rx="11.0" fill="#E7EEFC" stroke="none" stroke-width="1" /><text x="800.0" y="348.96" font-size="11" fill="#2F6FDB" font-weight="700" text-anchor="middle" >Načrtovana</text>
+<rect x="268" y="428" width="592" height="96" rx="10" fill="#fff" stroke="#E3E7EB" stroke-width="1" />
+<rect x="280" y="440" width="58" height="72" rx="8" fill="#E3F4EA" stroke="none" stroke-width="1" />
+<text x="309" y="474" font-size="24" fill="#1E8E55" font-weight="700" text-anchor="middle" >27</text>
+<text x="309" y="496" font-size="12" fill="#1E8E55" font-weight="700" text-anchor="middle" >OKT</text>
+<rect x="354" y="442" width="67" height="22" rx="11.0" fill="#E3F4EA" stroke="none" stroke-width="1" /><text x="387.5" y="456.96" font-size="11" fill="#1E8E55" font-weight="700" text-anchor="middle" >TRENING</text>
+<text x="431" y="458" font-size="15" fill="#17212B" font-weight="700" text-anchor="start" >U19</text>
+<text x="354" y="486" font-size="14" fill="#17212B" font-weight="400" text-anchor="start" >Pon · 17:30–19:00 · Pomožno igrišče</text>
+<text x="354" y="508" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >9 pride · 1 odsoten · 8 brez odgovora</text>
+<rect x="470" y="442" width="100" height="22" rx="11.0" fill="#FFF3D1" stroke="none" stroke-width="1" /><text x="520.0" y="456.96" font-size="11" fill="#C98A00" font-weight="700" text-anchor="middle" >Spremenjeno</text>
+<rect x="672" y="452" width="88" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="716.0" y="474.0" font-size="14" fill="#17212B" font-weight="600" text-anchor="middle" >Pridem</text>
+<rect x="768" y="452" width="80" height="34" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="808.0" y="474.0" font-size="14" fill="#17212B" font-weight="600" text-anchor="middle" >Ne pridem</text>
+<rect x="268" y="536" width="592" height="60" rx="10" fill="#F7F8FA" stroke="#E3E7EB" stroke-width="1" />
+<text x="292" y="571" font-size="13" fill="#A3ADB7" font-weight="700" text-anchor="start" >29 OKT</text>
+<text x="354" y="571" font-size="14" fill="#A3ADB7" font-weight="500" text-anchor="start" text-decoration="line-through">Trening · Člani · Sre 18:00</text>
+<rect x="752" y="555" width="96" height="22" rx="11.0" fill="#FCE7E7" stroke="none" stroke-width="1" /><text x="800.0" y="569.96" font-size="11" fill="#D04444" font-weight="700" text-anchor="middle" >Odpovedan</text>
+<rect x="268" y="612" width="592" height="144" rx="10" fill="#FCFDFD" stroke="#1E8E55" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="288" y="640" font-size="14" fill="#17212B" font-weight="700" text-anchor="start" >Ne pridem – trening 27. 10.</text>
+<text x="288" y="662" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >Razlog je obvezen, komentar ni.</text>
+<rect x="288" y="676" width="220" height="36" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="300" y="699.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Bolezen</text><text x="494" y="699.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >▾</text>
+<rect x="518" y="676" width="322" height="36" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="530" y="699.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Komentar (neobvezno)</text>
+<rect x="700" y="720" width="140" height="30" rx="8" fill="#D04444" stroke="none" stroke-width="1" /><text x="770.0" y="740.0" font-size="13" fill="#fff" font-weight="700" text-anchor="middle" >Potrdi odsotnost</text>
+<rect x="616" y="720" width="76" height="30" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="654.0" y="740.0" font-size="13" fill="#17212B" font-weight="600" text-anchor="middle" >Prekliči</text>
+<rect x="904" y="156" width="352" height="254" rx="14" fill="#fff" stroke="#E3E7EB" stroke-width="1" filter="url(#sh)"/>
+<text x="928" y="192" font-size="18" fill="#17212B" font-weight="700" text-anchor="start" >Moja razpoložljivost</text>
+<rect x="928" y="208" width="304" height="48" rx="10" fill="#E3F4EA" stroke="none" stroke-width="1" />
+<circle cx="950" cy="232" r="7" fill="#1E8E55"/>
+<text x="966" y="228" font-size="15" fill="#1E8E55" font-weight="700" text-anchor="start" >Na voljo</text>
+<text x="966" y="246" font-size="12" fill="#6B7785" font-weight="400" text-anchor="start" >velja od 12. 10. 2026</text>
+<rect x="928" y="268" width="304" height="36" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="940" y="291.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Nov status</text><text x="1218" y="291.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="end" >▾</text>
+<rect x="928" y="312" width="148" height="36" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="940" y="335.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Od 21. 10. 2026</text>
+<rect x="1084" y="312" width="148" height="36" rx="8" fill="#fff" stroke="#E3E7EB" stroke-width="1.5" /><text x="1096" y="335.0" font-size="13" fill="#6B7785" font-weight="400" text-anchor="start" >Do (neobvezno)</text>
+<text x="928" y="385" font-size="13" fill="#1E8E55" font-weight="600" text-anchor="start" >Zgodovina statusov</text>
+<rect x="1112" y="360" width="120" height="36" rx="8" fill="#1E8E55" stroke="none" stroke-width="1" /><text x="1172.0" y="383.0" font-size="14" fill="#fff" font-weight="700" text-anchor="middle" >Posodobi</text>
+<rect x="904" y="426" width="352" height="350" rx="14" fill="#fff" stroke="#E3E7EB" stroke-width="1" filter="url(#sh)"/>
+<text x="928" y="462" font-size="18" fill="#17212B" font-weight="700" text-anchor="start" >Moja sezona 2026/27</text>
+<rect x="928" y="480" width="96" height="84" rx="10" fill="#F3F5F7" stroke="none" stroke-width="1" />
+<text x="976" y="520" font-size="28" fill="#1E8E55" font-weight="700" text-anchor="middle" >9</text>
+<text x="976" y="546" font-size="12" fill="#6B7785" font-weight="500" text-anchor="middle" >Nastopi</text>
+<rect x="1032" y="480" width="96" height="84" rx="10" fill="#F3F5F7" stroke="none" stroke-width="1" />
+<text x="1080" y="520" font-size="28" fill="#1E8E55" font-weight="700" text-anchor="middle" >4</text>
+<text x="1080" y="546" font-size="12" fill="#6B7785" font-weight="500" text-anchor="middle" >Goli</text>
+<rect x="1136" y="480" width="96" height="84" rx="10" fill="#F3F5F7" stroke="none" stroke-width="1" />
+<text x="1184" y="520" font-size="28" fill="#1E8E55" font-weight="700" text-anchor="middle" >3</text>
+<text x="1184" y="546" font-size="12" fill="#6B7785" font-weight="500" text-anchor="middle" >Asistence</text>
+<text x="928" y="598" font-size="14" fill="#17212B" font-weight="400" text-anchor="start" >Odigrane minute</text><text x="1232" y="598" font-size="14" fill="#17212B" font-weight="700" text-anchor="end" >712</text>
+<line x1="928" y1="612" x2="1232" y2="612" stroke="#E3E7EB"/>
+<text x="928" y="636" font-size="14" fill="#17212B" font-weight="400" text-anchor="start" >Prisotnost na treningih</text><text x="1232" y="636" font-size="14" fill="#1E8E55" font-weight="700" text-anchor="end" >86 %</text>
+<rect x="928" y="648" width="304" height="8" rx="4" fill="#EEF1F4" stroke="none" stroke-width="1" /><rect x="928" y="648" width="261" height="8" rx="4" fill="#1E8E55" stroke="none" stroke-width="1" />
+<line x1="928" y1="672" x2="1232" y2="672" stroke="#E3E7EB"/>
+<text x="928" y="696" font-size="14" fill="#17212B" font-weight="400" text-anchor="start" >Kartoni</text>
+<rect x="1168" y="684" width="10" height="14" rx="2" fill="#F2C200" stroke="none" stroke-width="1" /><text x="1184" y="696" font-size="14" fill="#17212B" font-weight="700" text-anchor="start" >2</text>
+<rect x="1206" y="684" width="10" height="14" rx="2" fill="#D04444" stroke="none" stroke-width="1" /><text x="1222" y="696" font-size="14" fill="#17212B" font-weight="700" text-anchor="start" >0</text>
+<text x="928" y="750" font-size="13" fill="#1E8E55" font-weight="600" text-anchor="start" >Podrobna statistika →</text></svg>

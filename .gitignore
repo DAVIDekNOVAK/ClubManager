@@ -1,0 +1,22 @@
+# Odvisnosti
+node_modules/
+
+# Build
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Okoljske spremenljivke
+.env
+.env.*
+!.env.example
+
+# Logi
+*.log
+npm-debug.log*
+
+# OS / urejevalniki
+.DS_Store
+.vscode/
+.idea/
