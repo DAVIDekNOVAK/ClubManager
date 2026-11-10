@@ -38,7 +38,17 @@ export function Postavitev() {
               Moja statistika
             </NavLink>
           )}
-          <NavLink to="/ekipe">Ekipe</NavLink>
+          {/* Trener ima neposredno povezavo do statistike svoje ekipe. */}
+          {uporabnik.ekipe
+            .filter((e) => e.vloge.includes('TRENER'))
+            .map((e) => (
+              <NavLink key={e.id} to={`/ekipe/${e.id}/statistika`}>
+                Statistika – {e.naziv}
+              </NavLink>
+            ))}
+          <NavLink to="/ekipe" end>
+            Ekipe
+          </NavLink>
           {imaVlogo('VODJA_EKIPE') && <NavLink to="/nasprotni-klubi">Nasprotni klubi</NavLink>}
           {uporabnik.jeAdministrator && (
             <>

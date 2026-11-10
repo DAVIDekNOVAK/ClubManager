@@ -1,3 +1,4 @@
+import type { VrstaTekmovanja } from '@prisma/client';
 import { dan } from '../../common/datumi.js';
 import { prisma } from '../../common/prisma.js';
 
@@ -27,13 +28,13 @@ export const imaPodatke = (s: StatistikaIgralca) => s.nastopi > 0 || s.zacetnePo
  * Statistika igralcev za sezono (in po želji ekipo). Nič ni shranjeno vnaprej – vse se izračuna
  * iz evidenc tekem in treningov (ADR-0006), zato popravek poročila takoj spremeni statistiko.
  */
-export async function izracunajStatistiko(filter: { sezonaId: number; ekipaId?: number; igralecIds: number[] }) {
-  const { sezonaId, ekipaId, igralecIds } = filter;
+export async function izracunajStatistiko(filter: { sezonaId: number; ekipaId?: number; igralecIds: number[]; vrstaTekmovanja?: VrstaTekmovanja }) {
+  const { sezonaId, ekipaId, igralecIds, vrstaTekmovanja } = filter;
   const rezultat = new Map<number, StatistikaIgralca>(igralecIds.map((id) => [id, prazna()]));
   if (igralecIds.length === 0) return rezultat;
 
   // Upoštevajo se samo tekme s statusom »Zaključena«; osnutki poročil ne vplivajo (US-14, AC 4).
-  const tekma = { sezonaId, status: 'ZAKLJUCENA' as const, ...(ekipaId ? { ekipaId } : {}) };
+  const tekma = { sezonaId, status: 'ZAKLJUCENA' as const, ...(ekipaId ? { ekipaId } : {}), ...(vrstaTekmovanja ? { vrstaTekmovanja } : {}) };
   // Odpovedani in še neizvedeni treningi se ne štejejo (US-14, AC 3; US-06, AC 4).
   const trening = { sezonaId, status: 'IZVEDEN' as const, ...(ekipaId ? { ekipaId } : {}) };
 

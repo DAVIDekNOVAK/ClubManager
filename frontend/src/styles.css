@@ -913,3 +913,76 @@ input.minute {
 .kazalnik.sredina .kazalnik-vrednost {
   color: var(--zelena);
 }
+
+/* Statistika ekipe (WF-04) */
+.povzetek-ekipe {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.povzetek-kazalnik {
+  margin-bottom: 0;
+}
+.povzetek-kazalnik .kazalnik-vrednost {
+  font-size: 1.8rem;
+}
+.besedilo-zelena {
+  color: var(--zelena);
+}
+.besedilo-rdeca {
+  color: #d14a42;
+}
+.besedilo-siva {
+  color: #7a8581;
+}
+.besedilo-modra {
+  color: var(--modra);
+}
+.izid {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.izid-Z {
+  background: var(--zelena);
+}
+.izid-R {
+  background: #8b9692;
+}
+.izid-P {
+  background: #d14a42;
+}
+th.razvrsti-aktiven {
+  color: var(--zelena);
+}
+.prisotnost-celica {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 150px;
+}
+.prisotnost-celica .napredek {
+  flex: 1;
+  margin-top: 0;
+}
+.prisotnost-celica strong {
+  width: 3.4rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.napredek > span.napredek-rumena {
+  background: #c88a00;
+}
+.napredek > span.napredek-rdeca {
+  background: #d14a42;
+}
+.napredek > span.napredek-siva {
+  background: transparent;
+}

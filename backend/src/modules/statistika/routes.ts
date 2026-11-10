@@ -1,10 +1,11 @@
+import { VrstaTekmovanja } from '@prisma/client';
 import { Router } from 'express';
 import { z } from 'zod';
 import { niNajdeno, prepovedano } from '../../common/errors.js';
 import { asinh, idIzPoti, zId } from '../../common/http.js';
-import { ekipeZVlogo, trenutni } from '../../common/pravice.js';
+import { ekipeZVlogo, trenutni, zahtevajVlogoAliAdmina } from '../../common/pravice.js';
 import { prisma } from '../../common/prisma.js';
-import { poNazivu } from '../../common/razvrsti.js';
+import { poNazivu, poPriimku } from '../../common/razvrsti.js';
 import { statusSezone } from '../sezone/routes.js';
 import { imaPodatke, izracunajStatistiko } from './izracun.js';
 
@@ -60,6 +61,77 @@ statistikaRouter.get(
       // Brez nastopov in treningov vmesnik prikaže »Za izbrano sezono ni podatkov« (AC 5).
       imaPodatke: statistika ? imaPodatke(statistika) : false,
       poSezonah,
+    });
+  }),
+);
+
+const filterEkipeShema = z.object({
+  sezonaId: zId.optional(),
+  vrstaTekmovanja: z.nativeEnum(VrstaTekmovanja).optional(),
+});
+
+// Statistika ekipe in vseh njenih igralcev v sezoni (US-15).
+statistikaRouter.get(
+  '/ekipa/:id',
+  asinh(async (req, res) => {
+    const ekipaId = idIzPoti(req);
+    const filter = filterEkipeShema.parse(req.query);
+    const ekipa = await prisma.ekipa.findUnique({ where: { id: ekipaId }, select: { id: true, naziv: true, jeArhivirana: true } });
+    if (!ekipa) throw niNajdeno('Ekipa');
+    // Trener vidi statistiko samo svojih ekip, administrator vseh (AC 4).
+    await zahtevajVlogoAliAdmina(req, ekipaId, 'TRENER');
+
+    const sezone = await prisma.sezona.findMany({ orderBy: { datumZacetka: 'desc' } });
+    const sezonaId = filter.sezonaId ?? sezone.find((s) => statusSezone(s) === 'AKTIVNA')?.id ?? sezone[0]?.id;
+    if (!sezonaId) throw niNajdeno('Sezona');
+
+    // Povzetek ekipe: samo zaključene tekme (AC 1).
+    const tekme = await prisma.tekma.findMany({
+      where: { ekipaId, sezonaId, status: 'ZAKLJUCENA', ...(filter.vrstaTekmovanja ? { vrstaTekmovanja: filter.vrstaTekmovanja } : {}) },
+      include: { nasprotniKlub: { select: { naziv: true } } },
+      orderBy: { datumInUra: 'desc' },
+    });
+    const povzetek = { tekme: tekme.length, zmage: 0, remiji: 0, porazi: 0, daniGoli: 0, prejetiGoli: 0, povprecnaPrisotnost: null as number | null };
+    const izidi = tekme.map((t) => {
+      const nasi = (t.jeDomaca ? t.domaciGoli : t.gostujociGoli) ?? 0;
+      const njihovi = (t.jeDomaca ? t.gostujociGoli : t.domaciGoli) ?? 0;
+      povzetek.daniGoli += nasi;
+      povzetek.prejetiGoli += njihovi;
+      const izid = nasi > njihovi ? ('Z' as const) : nasi < njihovi ? ('P' as const) : ('R' as const);
+      if (izid === 'Z') povzetek.zmage += 1;
+      else if (izid === 'P') povzetek.porazi += 1;
+      else povzetek.remiji += 1;
+      return { id: t.id, datumInUra: t.datumInUra, nasprotnik: t.nasprotniKlub.naziv, nasiGoli: nasi, goliNasprotnika: njihovi, izid };
+    });
+
+    // V tabeli so vsi igralci, ki so bili v izbrani sezoni člani ekipe (tudi tisti, ki so že odšli).
+    const clanstva = await prisma.clanstvoVEkipi.findMany({
+      where: { ekipaId, sezonaId, vloge: { some: { vloga: 'IGRALEC' } } },
+      select: { uporabnik: { select: { id: true, ime: true, priimek: true } } },
+    });
+    const igralci = clanstva.map((c) => c.uporabnik).sort(poPriimku);
+    const statistike = await izracunajStatistiko({ sezonaId, ekipaId, igralecIds: igralci.map((i) => i.id), vrstaTekmovanja: filter.vrstaTekmovanja });
+
+    let izvedeni = 0;
+    let prisoten = 0;
+    const vrstice = igralci.map((i) => {
+      const s = statistike.get(i.id)!;
+      izvedeni += s.treningiIzvedeni;
+      prisoten += s.treningiPrisoten;
+      return { igralecId: i.id, ime: i.ime, priimek: i.priimek, ...s };
+    });
+    povzetek.povprecnaPrisotnost = izvedeni > 0 ? Math.round((prisoten / izvedeni) * 100) : null;
+    const strelec = [...vrstice].sort((a, b) => b.goli - a.goli)[0];
+
+    res.json({
+      ekipa,
+      sezonaId,
+      sezone: sezone.map((s) => ({ id: s.id, naziv: s.naziv, status: statusSezone(s) })),
+      vrstaTekmovanja: filter.vrstaTekmovanja ?? null,
+      povzetek,
+      zadnjeTekme: izidi.slice(0, 5),
+      najboljsiStrelec: strelec && strelec.goli > 0 ? { ime: strelec.ime, priimek: strelec.priimek, goli: strelec.goli } : null,
+      igralci: vrstice,
     });
   }),
 );
