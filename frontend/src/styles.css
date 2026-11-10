@@ -703,3 +703,24 @@ th.stevilo {
   color: #fff;
   font-weight: 600;
 }
+
+/* Iskalnik nasprotnega kluba */
+.zadetki {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--rob);
+  border-radius: 6px;
+  background: #fff;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.zadetki li {
+  padding: 0.3rem 0;
+}
+.izbran-klub {
+  border: 1px solid var(--rob);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  background: var(--zelena-svetla);
+}

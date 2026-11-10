@@ -156,3 +156,33 @@ export interface NasprotniKlub {
   kraj: string;
   steviloTekem: number;
 }
+
+export type StatusTekme = 'NACRTOVANA' | 'ODPOVEDANA' | 'ODIGRANA' | 'ZAKLJUCENA';
+export type VrstaTekmovanja = 'PRVENSTVO' | 'POKAL' | 'PRIJATELJSKA';
+export const STATUSI_TEKME: Record<StatusTekme, { naziv: string; barva: 'modra' | 'zelena' | 'siva' | 'rumena' }> = {
+  NACRTOVANA: { naziv: 'Načrtovana', barva: 'modra' },
+  ODPOVEDANA: { naziv: 'Odpovedana', barva: 'siva' },
+  ODIGRANA: { naziv: 'Odigrana', barva: 'rumena' },
+  ZAKLJUCENA: { naziv: 'Zaključena', barva: 'zelena' },
+};
+export const VRSTE_TEKMOVANJA: Record<VrstaTekmovanja, string> = {
+  PRVENSTVO: 'Prvenstvo',
+  POKAL: 'Pokal',
+  PRIJATELJSKA: 'Prijateljska',
+};
+export interface Tekma {
+  id: number;
+  ekipa: { id: number; naziv: string; jeArhivirana: boolean };
+  sezonaId: number;
+  nasprotniKlub: { id: number; naziv: string; kraj: string };
+  datumInUra: string;
+  jeDomaca: boolean;
+  lokacija: string;
+  vrstaTekmovanja: VrstaTekmovanja;
+  status: StatusTekme;
+  terminJeMinil: boolean;
+  jeTrener: boolean;
+  jeVodja: boolean;
+  /** Rezultat zaključene tekme z vidika naše ekipe. */
+  rezultat: { nasiGoli: number; goliNasprotnika: number } | null;
+}

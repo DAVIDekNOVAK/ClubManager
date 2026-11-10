@@ -1,10 +1,10 @@
 import type { Prisma, Trening } from '@prisma/client';
 import type { Request } from 'express';
 import { z } from 'zod';
-import { dan, dodajDni } from '../../common/datumi.js';
+import { dan } from '../../common/datumi.js';
 import { napakaPolja, niNajdeno, prepovedano } from '../../common/errors.js';
 import { zBesedilo, zDatumInUra } from '../../common/http.js';
-import { ekipeZVlogo, sezonaZaDan, trenutni, veljavniIgralci, type PrijavljenUporabnik } from '../../common/pravice.js';
+import { ekipeZVlogo, pogojVidnosti, sezonaZaDan, trenutni, veljavniIgralci, type PrijavljenUporabnik } from '../../common/pravice.js';
 import { prisma } from '../../common/prisma.js';
 
 /** Polja termina, ki jih trener vnese ob ustvarjanju in spreminjanju treninga (US-05, US-06). */
@@ -27,31 +27,6 @@ export async function preveriTermin(termin: { zacetek: Date; konec: Date }) {
   const sezona = await sezonaZaDan(dan(termin.zacetek));
   if (!sezona) throw napakaPolja('zacetek', 'Za izbrani datum ni določene tekmovalne sezone');
   return sezona;
-}
-
-/**
- * Pogoj za aktivnosti (treninge, tekme), ki jih uporabnik vidi v razporedu: aktivnost mora
- * pripadati ekipi in sezoni njegovega članstva ter biti med datumom pridružitve in datumom
- * odhoda. Po odhodu zato ne vidi več prihodnjih aktivnosti ekipe (US-03, AC 4).
- */
-export async function pogojVidnosti(uporabnik: PrijavljenUporabnik, polje: 'zacetek' | 'datumInUra') {
-  if (uporabnik.jeAdministrator) return {};
-  const clanstva = await prisma.clanstvoVEkipi.findMany({
-    where: { uporabnikId: uporabnik.id },
-    select: { ekipaId: true, sezonaId: true, datumPridruzitve: true, datumOdhoda: true },
-  });
-  // Brez članstev uporabnik ne vidi ničesar (pogoj, ki ne ustreza nobeni vrstici).
-  if (clanstva.length === 0) return { id: -1 };
-  return {
-    OR: clanstva.map((c) => ({
-      ekipaId: c.ekipaId,
-      sezonaId: c.sezonaId,
-      [polje]: {
-        gte: c.datumPridruzitve,
-        ...(c.datumOdhoda ? { lt: dodajDni(c.datumOdhoda, 1) } : {}),
-      },
-    })),
-  };
 }
 
 /** Naloži trening, če ga uporabnik sme videti (sicer 404 oziroma 403). */

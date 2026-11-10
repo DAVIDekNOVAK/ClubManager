@@ -2,10 +2,10 @@ import type { Prisma } from '@prisma/client';
 import { Router } from 'express';
 import { z } from 'zod';
 import { asinh, idIzPoti, zId } from '../../common/http.js';
-import { trenutni, zahtevajVlogo } from '../../common/pravice.js';
+import { pogojVidnosti, trenutni, zahtevajVlogo } from '../../common/pravice.js';
 import { prisma } from '../../common/prisma.js';
 import { zahtevajAktivnoEkipo } from '../ekipe/routes.js';
-import { izpisTreningov, naloziTrening, pogojVidnosti, preveriTermin, terminShema, uskladiPrisotnosti, zEkipo } from './skupno.js';
+import { izpisTreningov, naloziTrening, preveriTermin, terminShema, uskladiPrisotnosti, zEkipo } from './skupno.js';
 
 const novTreningShema = terminShema.extend({ ekipaId: zId });
 
