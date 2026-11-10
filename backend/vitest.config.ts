@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['test/**/*.test.ts'],
+    globalSetup: ['test/globalSetup.ts'],
     // Testi si delijo eno testno bazo, zato se datoteke izvajajo zaporedno.
     fileParallelism: false,
     env: {
