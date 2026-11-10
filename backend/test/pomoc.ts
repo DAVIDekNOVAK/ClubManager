@@ -100,3 +100,21 @@ export async function ustvariKlub(steviloIgralcev = 3) {
   }
   return { sezona, ekipa, drugaEkipa, admin, trener, vodja, drug, igralci };
 }
+
+/** Ustvari odigrano tekmo (termin pred `urNazaj` urami) testnega kluba. */
+export async function ustvariTekmo(klub: { ekipa: { id: number }; sezona: { id: number } }, urNazaj = 3, prepis: Record<string, unknown> = {}) {
+  const nasprotnik =
+    (await prisma.nasprotniKlub.findFirst()) ?? (await prisma.nasprotniKlub.create({ data: { naziv: 'NK Triglav', kraj: 'Kranj' } }));
+  return prisma.tekma.create({
+    data: {
+      ekipaId: klub.ekipa.id,
+      sezonaId: klub.sezona.id,
+      nasprotniKlubId: nasprotnik.id,
+      datumInUra: new Date(Date.now() - urNazaj * 3_600_000),
+      jeDomaca: true,
+      lokacija: 'Mestni stadion',
+      vrstaTekmovanja: 'PRVENSTVO',
+      ...prepis,
+    },
+  });
+}
