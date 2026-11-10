@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../api';
 import { useUporabnik } from '../auth';
 import { MojaRazpolozljivostKartica } from '../components/razpolozljivost';
+import { MojaSezonaKartica } from '../components/statistika';
 import { KarticaTekme } from '../components/tekme';
 import { KarticaTreninga } from '../components/treningi';
 import { GlavaStrani, Kartica, Stanje, useNalozi, Znacka } from '../components/ui';
@@ -50,7 +51,12 @@ export function Domov() {
         </Kartica>
 
         <div>
-          {uporabnik.ekipe.some((e) => e.vloge.includes('IGRALEC')) && <MojaRazpolozljivostKartica />}
+          {uporabnik.ekipe.some((e) => e.vloge.includes('IGRALEC')) && (
+            <>
+              <MojaRazpolozljivostKartica />
+              <MojaSezonaKartica igralecId={uporabnik.id} />
+            </>
+          )}
           <Kartica naslov="Moje ekipe">
             {uporabnik.ekipe.length === 0 ? (
               <p className="tiho">

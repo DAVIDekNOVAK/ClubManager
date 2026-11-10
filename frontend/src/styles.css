@@ -875,3 +875,41 @@ input.minute {
   flex: 1;
   min-width: 120px;
 }
+
+/* Statistika */
+.napredek {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--siva-svetla);
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+.napredek > span {
+  display: block;
+  height: 100%;
+  background: var(--zelena);
+  border-radius: 999px;
+}
+.karton {
+  display: inline-block;
+  width: 10px;
+  height: 14px;
+  border-radius: 2px;
+  vertical-align: -2px;
+  margin-right: 0.25rem;
+}
+.karton-rumen {
+  background: #f2c200;
+}
+.karton-rdec {
+  background: #d14a42;
+}
+.kazalniki-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.kazalnik.sredina {
+  text-align: center;
+}
+.kazalnik.sredina .kazalnik-vrednost {
+  color: var(--zelena);
+}
