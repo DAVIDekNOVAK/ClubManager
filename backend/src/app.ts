@@ -10,6 +10,7 @@ import { javnaPovabilaRouter } from './modules/povabila/javno.js';
 import { povabilaRouter } from './modules/povabila/routes.js';
 import { sezoneRouter } from './modules/sezone/routes.js';
 import { treningiRouter } from './modules/treningi/routes.js';
+import { urejanjeTreningovRouter } from './modules/treningi/urejanje.js';
 import { uporabnikiRouter } from './modules/uporabniki/routes.js';
 
 /** Sestavi aplikacijo Express. Ločeno od zagona strežnika, da jo lahko uporabijo testi. */
@@ -41,6 +42,7 @@ export function ustvariAplikacijo() {
   api.use('/uporabniki', uporabnikiRouter);
   api.use('/povabila', povabilaRouter);
   api.use('/treningi', treningiRouter);
+  api.use('/treningi', urejanjeTreningovRouter);
 
   app.use('/api', api);
   app.use(neznanaPot);
