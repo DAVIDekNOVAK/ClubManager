@@ -209,3 +209,25 @@ export interface RazpolozljivostEkipe {
   igralci: ({ igralecId: number; ime: string; priimek: string } & StatusNaDan)[];
   povzetek: Record<StatusRazpolozljivosti, number>;
 }
+
+export interface Nastop {
+  igralecId: number;
+  zacetnaPostava: boolean;
+  odigraneMinute: number;
+}
+export interface IgralecPorocila {
+  igralecId: number;
+  ime: string;
+  priimek: string;
+  status: StatusRazpolozljivosti;
+  /** Igralec je na dan tekme poškodovan ali odsoten – pred izbiro je treba potrditi opozorilo. */
+  zahtevaPotrditev: boolean;
+}
+export interface PorociloTekme {
+  tekma: Tekma;
+  nasiGoli: number | null;
+  goliNasprotnika: number | null;
+  nastopi: Nastop[];
+  igralci: IgralecPorocila[];
+  preverjanje: string[];
+}
