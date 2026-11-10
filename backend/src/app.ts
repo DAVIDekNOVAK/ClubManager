@@ -3,6 +3,7 @@ import { neznanaPot, obravnavaNapak } from './common/errors.js';
 import { zahtevajPrijavo } from './common/pravice.js';
 import { authRouter } from './modules/auth/routes.js';
 import { csrfZascita, sejeMiddleware } from './modules/auth/seja.js';
+import { ekipeRouter } from './modules/ekipe/routes.js';
 import { healthRouter } from './modules/health/routes.js';
 import { sezoneRouter } from './modules/sezone/routes.js';
 
@@ -28,6 +29,7 @@ export function ustvariAplikacijo() {
   // Vse poti od tu naprej zahtevajo prijavo.
   api.use(zahtevajPrijavo);
   api.use('/sezone', sezoneRouter);
+  api.use('/ekipe', ekipeRouter);
 
   app.use('/api', api);
   app.use(neznanaPot);
