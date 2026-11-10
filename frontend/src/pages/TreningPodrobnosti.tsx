@@ -86,6 +86,32 @@ export function TreningPodrobnosti() {
         </Kartica>
       )}
 
+      {t.povzetek && t.status !== 'ODPOVEDAN' && (
+        <Kartica
+          naslov="Prisotnost"
+          dejanja={
+            <Link className={`gumb${t.jeTrener ? ' gumb-glavni' : ''}`} to={`/treningi/${t.id}/prisotnost`}>
+              {t.jeTrener ? (t.status === 'IZVEDEN' ? 'Popravi prisotnost' : 'Evidentiraj prisotnost') : 'Pregled prisotnosti'}
+            </Link>
+          }
+        >
+          <div className="kazalniki">
+            <div className="kazalnik">
+              <div className="kazalnik-vrednost">{t.povzetek.pride}</div>
+              <div className="kazalnik-oznaka">Potrdili udeležbo</div>
+            </div>
+            <div className="kazalnik">
+              <div className="kazalnik-vrednost">{t.povzetek.nePride}</div>
+              <div className="kazalnik-oznaka">Prijavili odsotnost</div>
+            </div>
+            <div className="kazalnik">
+              <div className="kazalnik-vrednost">{t.povzetek.niOdgovora}</div>
+              <div className="kazalnik-oznaka">Brez odgovora</div>
+            </div>
+          </div>
+        </Kartica>
+      )}
+
       {potrditevOdpovedi && (
         <Modal naslov="Odpoved treninga" obZaprtju={() => setPotrditevOdpovedi(false)}>
           <p>Ali res želite odpovedati trening {terminTreninga(t)}?</p>
