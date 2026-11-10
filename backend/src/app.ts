@@ -9,6 +9,7 @@ import { healthRouter } from './modules/health/routes.js';
 import { javnaPovabilaRouter } from './modules/povabila/javno.js';
 import { povabilaRouter } from './modules/povabila/routes.js';
 import { sezoneRouter } from './modules/sezone/routes.js';
+import { prisotnostRouter } from './modules/treningi/prisotnost.js';
 import { treningiRouter } from './modules/treningi/routes.js';
 import { udelezbaRouter } from './modules/treningi/udelezba.js';
 import { urejanjeTreningovRouter } from './modules/treningi/urejanje.js';
@@ -45,6 +46,7 @@ export function ustvariAplikacijo() {
   api.use('/treningi', treningiRouter);
   api.use('/treningi', urejanjeTreningovRouter);
   api.use('/treningi', udelezbaRouter);
+  api.use('/treningi', prisotnostRouter);
 
   app.use('/api', api);
   app.use(neznanaPot);
