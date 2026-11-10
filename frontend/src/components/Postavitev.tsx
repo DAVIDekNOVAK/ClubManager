@@ -32,6 +32,7 @@ export function Postavitev() {
             Nadzorna plošča
           </NavLink>
           <NavLink to="/treningi">Treningi</NavLink>
+          <NavLink to="/tekme">Tekme</NavLink>
           <NavLink to="/ekipe">Ekipe</NavLink>
           {imaVlogo('VODJA_EKIPE') && <NavLink to="/nasprotni-klubi">Nasprotni klubi</NavLink>}
           {uporabnik.jeAdministrator && (
