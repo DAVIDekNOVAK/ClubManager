@@ -33,5 +33,5 @@ export const zBesedilo = (min: number, max: number, obvezno = 'Polje je obvezno'
   z
     .string({ required_error: obvezno, invalid_type_error: obvezno })
     .trim()
-    .min(min, min <= 1 ? obvezno : `Vnesite vsaj ${min} znake`)
+    .min(min, min <= 1 ? obvezno : `Najmanjše število znakov: ${min}`)
     .max(max, `Dovoljenih je največ ${max} znakov`);
