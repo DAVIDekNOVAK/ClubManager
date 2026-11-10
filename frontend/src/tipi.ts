@@ -186,3 +186,26 @@ export interface Tekma {
   /** Rezultat zaključene tekme z vidika naše ekipe. */
   rezultat: { nasiGoli: number; goliNasprotnika: number } | null;
 }
+
+export type StatusRazpolozljivosti = 'NA_VOLJO' | 'ODSOTEN' | 'POSKODOVAN' | 'OMEJENO_TRENIRANJE';
+// Barve statusov po US-17: zelena, rumena, rdeča, siva.
+export const STATUSI_RAZPOLOZLJIVOSTI: Record<StatusRazpolozljivosti, { naziv: string; barva: 'zelena' | 'rumena' | 'rdeca' | 'siva' }> = {
+  NA_VOLJO: { naziv: 'Na voljo', barva: 'zelena' },
+  OMEJENO_TRENIRANJE: { naziv: 'Omejeno treniranje', barva: 'rumena' },
+  POSKODOVAN: { naziv: 'Poškodovan', barva: 'rdeca' },
+  ODSOTEN: { naziv: 'Odsoten', barva: 'siva' },
+};
+export interface StatusNaDan {
+  status: StatusRazpolozljivosti;
+  veljaOd: string | null;
+  veljaDo: string | null;
+}
+export interface MojaRazpolozljivost {
+  trenutni: StatusNaDan;
+  zgodovina: { id: number; status: StatusRazpolozljivosti; veljaOd: string; veljaDo: string | null; ustvarjena: string }[];
+}
+export interface RazpolozljivostEkipe {
+  datum: string;
+  igralci: ({ igralecId: number; ime: string; priimek: string } & StatusNaDan)[];
+  povzetek: Record<StatusRazpolozljivosti, number>;
+}

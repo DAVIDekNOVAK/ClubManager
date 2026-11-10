@@ -2,10 +2,11 @@ import { useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { useAuth, useUporabnik } from '../auth';
+import { ZnackaRazpolozljivosti } from '../components/razpolozljivost';
 import { IzbiraSezone, useSezone } from '../components/sezone';
 import { GlavaStrani, Kartica, Modal, Obvestilo, Polje, Stanje, useNalozi, useOddaja, Znacka } from '../components/ui';
 import { danes, datum, zaVnosDatuma } from '../format';
-import { KATEGORIJE, polnoIme, VLOGE, type ClanEkipe, type EkipaPodrobno, type Sezona, type UporabnikKratko, type Vloga } from '../tipi';
+import { KATEGORIJE, polnoIme, VLOGE, type ClanEkipe, type EkipaPodrobno, type RazpolozljivostEkipe, type Sezona, type UporabnikKratko, type Vloga } from '../tipi';
 
 export function EkipaPodrobnosti() {
   const ekipaId = Number(useParams().id);
@@ -17,6 +18,13 @@ export function EkipaPodrobnosti() {
     () => (sezonaId ? api.get<ClanEkipe[]>(`/ekipe/${ekipaId}/clanstva?sezonaId=${sezonaId}`) : Promise.resolve([])),
     [ekipaId, sezonaId],
   );
+  // Trener in administrator pri igralcih vidita današnji status razpoložljivosti.
+  const vidiRazpolozljivost = uporabnik.jeAdministrator || !!ekipa.podatki?.mojeVloge.includes('TRENER');
+  const razpolozljivost = useNalozi(
+    () => (vidiRazpolozljivost ? api.get<RazpolozljivostEkipe>(`/ekipe/${ekipaId}/razpolozljivost`) : Promise.resolve(null)),
+    [ekipaId, vidiRazpolozljivost],
+  );
+  const statusIgralca = new Map(razpolozljivost.podatki?.igralci.map((i) => [i.igralecId, i.status]));
   const [dodajanje, setDodajanje] = useState(false);
   const [urejanje, setUrejanje] = useState<ClanEkipe | null>(null);
   const [uspeh, setUspeh] = useState<string | null>(null);
@@ -117,6 +125,7 @@ export function EkipaPodrobnosti() {
                 <tr>
                   <th>Član</th>
                   <th>Vloge</th>
+                  {vidiRazpolozljivost && <th>Razpoložljivost danes</th>}
                   <th>Pridružitev</th>
                   <th>Odhod</th>
                   {jeAdmin && <th />}
@@ -142,6 +151,9 @@ export function EkipaPodrobnosti() {
                         ))}
                       </span>
                     </td>
+                    {vidiRazpolozljivost && (
+                      <td>{statusIgralca.has(c.uporabnik.id) ? <ZnackaRazpolozljivosti status={statusIgralca.get(c.uporabnik.id)!} /> : '–'}</td>
+                    )}
                     <td>{datum(c.datumPridruzitve)}</td>
                     <td>{c.datumOdhoda ? <>{datum(c.datumOdhoda)} {c.jeOdsel && <Znacka>Odšel</Znacka>}</> : '–'}</td>
                     {jeAdmin && (

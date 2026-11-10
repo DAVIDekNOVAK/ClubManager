@@ -318,6 +318,7 @@ a {
 /* Obrazci */
 .obrazec {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.85rem;
 }
 .obrazec-vrsta {
@@ -519,8 +520,11 @@ th.stevilo {
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--rob);
 }
-.seznam > li:last-child {
+.seznam > li:not(.aktivnost):last-child {
   border-bottom: none;
+}
+.seznam > li.aktivnost:last-child {
+  margin-bottom: 0;
 }
 .vrstica {
   display: flex;
@@ -723,4 +727,37 @@ th.stevilo {
   border-radius: 6px;
   padding: 0.4rem 0.6rem;
   background: var(--zelena-svetla);
+}
+
+/* Razpoložljivost */
+.status-okvir {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.85rem;
+}
+.status-pika {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.status-zelena {
+  background: var(--zelena-svetla);
+  color: var(--zelena-temna);
+}
+.status-rumena {
+  background: var(--rumena-svetla);
+  color: var(--rumena);
+}
+.status-rdeca {
+  background: var(--rdeca-svetla);
+  color: var(--rdeca);
+}
+.status-siva {
+  background: var(--siva-svetla);
+  color: #4b5652;
 }
