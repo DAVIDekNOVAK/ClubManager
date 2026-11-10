@@ -98,3 +98,54 @@ export const STATUSI_POVABILA: Record<StatusPovabila, { naziv: string; barva: 'm
   SPREJETO: { naziv: 'Sprejeto', barva: 'zelena' },
   POTEKLO: { naziv: 'Poteklo', barva: 'siva' },
 };
+
+export type StatusTreninga = 'NACRTOVAN' | 'ODPOVEDAN' | 'IZVEDEN';
+export type PrijavljenaPrisotnost = 'NI_ODGOVORA' | 'PRIDE' | 'NE_PRIDE';
+export type RazlogOdsotnosti = 'BOLEZEN' | 'POSKODBA' | 'SOLA_SLUZBA' | 'DRUGO';
+export type DejanskaPrisotnost = 'PRISOTEN' | 'OPRAVICENO_ODSOTEN' | 'NEOPRAVICENO_ODSOTEN';
+
+export const STATUSI_TRENINGA: Record<StatusTreninga, { naziv: string; barva: 'modra' | 'zelena' | 'siva' }> = {
+  NACRTOVAN: { naziv: 'Načrtovan', barva: 'modra' },
+  ODPOVEDAN: { naziv: 'Odpovedan', barva: 'siva' },
+  IZVEDEN: { naziv: 'Izveden', barva: 'zelena' },
+};
+export const RAZLOGI_ODSOTNOSTI: Record<RazlogOdsotnosti, string> = {
+  BOLEZEN: 'Bolezen',
+  POSKODBA: 'Poškodba',
+  SOLA_SLUZBA: 'Šola/služba',
+  DRUGO: 'Drugo',
+};
+export const DEJANSKE_PRISOTNOSTI: Record<DejanskaPrisotnost, string> = {
+  PRISOTEN: 'Prisoten',
+  OPRAVICENO_ODSOTEN: 'Opravičeno odsoten',
+  NEOPRAVICENO_ODSOTEN: 'Neopravičeno odsoten',
+};
+
+export interface PovzetekPrijav {
+  pride: number;
+  nePride: number;
+  niOdgovora: number;
+}
+export interface MojaPrisotnost {
+  prijavljenaPrisotnost: PrijavljenaPrisotnost;
+  razlogOdsotnosti: RazlogOdsotnosti | null;
+  komentar: string | null;
+  dejanskaPrisotnost: DejanskaPrisotnost | null;
+}
+export interface Trening {
+  id: number;
+  ekipa: { id: number; naziv: string; jeArhivirana: boolean };
+  sezonaId: number;
+  zacetek: string;
+  konec: string;
+  lokacija: string;
+  vsebina: string | null;
+  status: StatusTreninga;
+  jeSpremenjen: boolean;
+  seJeZacel: boolean;
+  jeTrener: boolean;
+  /** Evidenca prijavljenega uporabnika, če je igralec na tem treningu. */
+  mojaPrisotnost: MojaPrisotnost | null;
+  /** Povzetek prijav – samo za trenerja ekipe in administratorja. */
+  povzetek: PovzetekPrijav | null;
+}
