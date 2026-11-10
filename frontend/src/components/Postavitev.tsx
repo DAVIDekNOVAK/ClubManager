@@ -1,7 +1,20 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth';
 
-/** Skupna postavitev strani: glava z navigacijo in vsebina. */
+/** Skupna postavitev zaščitenih strani: glava z navigacijo in vsebina. Neprijavljene preusmeri na prijavo. */
 export function Postavitev() {
+  const { uporabnik, nalaganje, odjava } = useAuth();
+  const lokacija = useLocation();
+  const navigate = useNavigate();
+
+  if (nalaganje) return <p className="vsebina tiho">Nalaganje …</p>;
+  if (!uporabnik) return <Navigate to="/prijava" replace state={{ od: lokacija.pathname }} />;
+
+  async function obOdjavi() {
+    await odjava();
+    navigate('/prijava', { replace: true });
+  }
+
   return (
     <div className="aplikacija">
       <header className="glava">
@@ -13,6 +26,15 @@ export function Postavitev() {
             Nadzorna plošča
           </NavLink>
         </nav>
+        <div className="glava-uporabnik">
+          <span>
+            {uporabnik.ime} {uporabnik.priimek}
+            {uporabnik.jeAdministrator && ' (administrator)'}
+          </span>
+          <button className="gumb gumb-majhen" onClick={obOdjavi}>
+            Odjava
+          </button>
+        </div>
       </header>
       <main className="vsebina">
         <Outlet />
