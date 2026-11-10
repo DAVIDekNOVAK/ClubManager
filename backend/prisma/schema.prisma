@@ -1,0 +1,336 @@
+// Podatkovni model aplikacije ClubManager.
+// Izhaja iz docs/03-podatkovni-model.md; imena modelov in polj sledijo slovenskim
+// poimenovanjem iz dokumentacije (brez šumnikov).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Kategorija {
+  CLANI
+  U19
+  U17
+  U15
+  U13
+  DRUGO
+}
+
+enum Vloga {
+  IGRALEC
+  TRENER
+  VODJA_EKIPE
+}
+
+enum StatusTreninga {
+  NACRTOVAN
+  ODPOVEDAN
+  IZVEDEN
+}
+
+enum PrijavljenaPrisotnost {
+  NI_ODGOVORA
+  PRIDE
+  NE_PRIDE
+}
+
+enum RazlogOdsotnosti {
+  BOLEZEN
+  POSKODBA
+  SOLA_SLUZBA
+  DRUGO
+}
+
+enum DejanskaPrisotnost {
+  PRISOTEN
+  OPRAVICENO_ODSOTEN
+  NEOPRAVICENO_ODSOTEN
+}
+
+enum StatusTekme {
+  NACRTOVANA
+  ODPOVEDANA
+  ODIGRANA
+  ZAKLJUCENA
+}
+
+enum VrstaTekmovanja {
+  PRVENSTVO
+  POKAL
+  PRIJATELJSKA
+}
+
+enum VrstaDogodka {
+  GOL
+  ASISTENCA
+  RUMENI_KARTON
+  RDECI_KARTON
+  MENJAVA
+}
+
+enum StatusRazpolozljivosti {
+  NA_VOLJO
+  ODSOTEN
+  POSKODOVAN
+  OMEJENO_TRENIRANJE
+}
+
+model Uporabnik {
+  id              Int      @id @default(autoincrement())
+  ime             String
+  priimek         String
+  ePosta          String   @unique
+  gesloHash       String
+  jeAdministrator Boolean  @default(false)
+  ustvarjen       DateTime @default(now())
+
+  // Zaščita prijave (US-20): štetje zaporednih neuspešnih poskusov in začasni zaklep.
+  neuspesniPoskusi    Int       @default(0)
+  prviNeuspesenPoskus DateTime?
+  zaklenjenDo         DateTime?
+
+  clanstva             ClanstvoVEkipi[]
+  prisotnosti          Prisotnost[]
+  spremembePrisotnosti ZgodovinaPrisotnosti[]
+  nastopi              NastopNaTekmi[]
+  dogodki              DogodekNaTekmi[]         @relation("DogodekIgralec")
+  dogodkiVstop         DogodekNaTekmi[]         @relation("DogodekVstopilIgralec")
+  spremembeTekem       ZgodovinaTekme[]
+  razpolozljivosti     RazpolozljivostIgralca[]
+  poslanaPovabila      Povabilo[]
+  seje                 Seja[]
+  ustvarjeniTreningi   Trening[]
+}
+
+model Ekipa {
+  id           Int        @id @default(autoincrement())
+  naziv        String
+  kategorija   Kategorija
+  jeArhivirana Boolean    @default(false)
+  ustvarjena   DateTime   @default(now())
+
+  clanstva ClanstvoVEkipi[]
+  treningi Trening[]
+  tekme    Tekma[]
+  povabila Povabilo[]
+}
+
+// Status sezone (Načrtovana / Aktivna / Zaključena) se ne shranjuje, ampak se
+// izračuna iz datumov, zato se "samodejno" spremeni brez ozadnjih opravil (US-01).
+model Sezona {
+  id           Int      @id @default(autoincrement())
+  naziv        String   @unique
+  datumZacetka DateTime @db.Date
+  datumKonca   DateTime @db.Date
+
+  clanstva ClanstvoVEkipi[]
+  treningi Trening[]
+  tekme    Tekma[]
+  povabila Povabilo[]
+}
+
+model ClanstvoVEkipi {
+  id               Int       @id @default(autoincrement())
+  uporabnikId      Int
+  ekipaId          Int
+  sezonaId         Int
+  datumPridruzitve DateTime  @db.Date
+  datumOdhoda      DateTime? @db.Date
+
+  uporabnik Uporabnik    @relation(fields: [uporabnikId], references: [id], onDelete: Restrict)
+  ekipa     Ekipa        @relation(fields: [ekipaId], references: [id], onDelete: Restrict)
+  sezona    Sezona       @relation(fields: [sezonaId], references: [id], onDelete: Restrict)
+  vloge     VlogaClana[]
+
+  @@unique([uporabnikId, ekipaId, sezonaId])
+  @@index([ekipaId, sezonaId])
+}
+
+model VlogaClana {
+  id         Int   @id @default(autoincrement())
+  clanstvoId Int
+  vloga      Vloga
+
+  clanstvo ClanstvoVEkipi @relation(fields: [clanstvoId], references: [id], onDelete: Cascade)
+
+  @@unique([clanstvoId, vloga])
+}
+
+model Trening {
+  id           Int            @id @default(autoincrement())
+  ekipaId      Int
+  sezonaId     Int
+  zacetek      DateTime
+  konec        DateTime
+  lokacija     String
+  vsebina      String?
+  status       StatusTreninga @default(NACRTOVAN)
+  // Čas zadnje spremembe termina/lokacije/vsebine – za oznako »Spremenjeno« (US-06).
+  spremenjenOb DateTime?
+  ustvarilId   Int?
+  ustvarjen    DateTime       @default(now())
+
+  ekipa       Ekipa        @relation(fields: [ekipaId], references: [id], onDelete: Restrict)
+  sezona      Sezona       @relation(fields: [sezonaId], references: [id], onDelete: Restrict)
+  ustvaril    Uporabnik?   @relation(fields: [ustvarilId], references: [id], onDelete: SetNull)
+  prisotnosti Prisotnost[]
+
+  @@index([ekipaId, zacetek])
+}
+
+model Prisotnost {
+  id                    Int                   @id @default(autoincrement())
+  treningId             Int
+  igralecId             Int
+  prijavljenaPrisotnost PrijavljenaPrisotnost @default(NI_ODGOVORA)
+  razlogOdsotnosti      RazlogOdsotnosti?
+  komentar              String?
+  dejanskaPrisotnost    DejanskaPrisotnost?
+
+  trening   Trening                @relation(fields: [treningId], references: [id], onDelete: Cascade)
+  igralec   Uporabnik              @relation(fields: [igralecId], references: [id], onDelete: Restrict)
+  zgodovina ZgodovinaPrisotnosti[]
+
+  @@unique([treningId, igralecId])
+}
+
+model ZgodovinaPrisotnosti {
+  id             Int                @id @default(autoincrement())
+  prisotnostId   Int
+  spremenilId    Int
+  staraVrednost  DejanskaPrisotnost
+  novaVrednost   DejanskaPrisotnost
+  datumSpremembe DateTime           @default(now())
+
+  prisotnost Prisotnost @relation(fields: [prisotnostId], references: [id], onDelete: Cascade)
+  spremenil  Uporabnik  @relation(fields: [spremenilId], references: [id], onDelete: Restrict)
+}
+
+model NasprotniKlub {
+  id    Int    @id @default(autoincrement())
+  naziv String
+  kraj  String
+
+  tekme Tekma[]
+
+  @@unique([naziv, kraj])
+}
+
+model Tekma {
+  id              Int             @id @default(autoincrement())
+  ekipaId         Int
+  sezonaId        Int
+  nasprotniKlubId Int
+  datumInUra      DateTime
+  jeDomaca        Boolean
+  lokacija        String
+  vrstaTekmovanja VrstaTekmovanja
+  status          StatusTekme     @default(NACRTOVANA)
+  domaciGoli      Int?
+  gostujociGoli   Int?
+  ustvarjena      DateTime        @default(now())
+
+  ekipa         Ekipa            @relation(fields: [ekipaId], references: [id], onDelete: Restrict)
+  sezona        Sezona           @relation(fields: [sezonaId], references: [id], onDelete: Restrict)
+  nasprotniKlub NasprotniKlub    @relation(fields: [nasprotniKlubId], references: [id], onDelete: Restrict)
+  nastopi       NastopNaTekmi[]
+  dogodki       DogodekNaTekmi[]
+  zgodovina     ZgodovinaTekme[]
+
+  @@index([ekipaId, datumInUra])
+}
+
+model NastopNaTekmi {
+  id             Int     @id @default(autoincrement())
+  tekmaId        Int
+  igralecId      Int
+  zacetnaPostava Boolean
+  odigraneMinute Int     @default(0)
+
+  tekma   Tekma     @relation(fields: [tekmaId], references: [id], onDelete: Cascade)
+  igralec Uporabnik @relation(fields: [igralecId], references: [id], onDelete: Restrict)
+
+  @@unique([tekmaId, igralecId])
+}
+
+// Pri MENJAVI je `igralecId` igralec, ki zapusti igrišče, `vstopilIgralecId` pa igralec, ki vstopi.
+// ASISTENCA je z `golId` vezana na gol, h kateremu spada (US-12).
+model DogodekNaTekmi {
+  id               Int          @id @default(autoincrement())
+  tekmaId          Int
+  igralecId        Int
+  vrstaDogodka     VrstaDogodka
+  minuta           Int
+  vstopilIgralecId Int?
+  golId            Int?
+
+  tekma          Tekma            @relation(fields: [tekmaId], references: [id], onDelete: Cascade)
+  igralec        Uporabnik        @relation("DogodekIgralec", fields: [igralecId], references: [id], onDelete: Restrict)
+  vstopilIgralec Uporabnik?       @relation("DogodekVstopilIgralec", fields: [vstopilIgralecId], references: [id], onDelete: Restrict)
+  gol            DogodekNaTekmi?  @relation("AsistencaZaGol", fields: [golId], references: [id], onDelete: Cascade)
+  asistence      DogodekNaTekmi[] @relation("AsistencaZaGol")
+
+  @@index([tekmaId, minuta])
+}
+
+model ZgodovinaTekme {
+  id             Int      @id @default(autoincrement())
+  tekmaId        Int
+  spremenilId    Int
+  vrstaSpremembe String
+  razlog         String
+  stariPodatki   Json
+  noviPodatki    Json
+  datumSpremembe DateTime @default(now())
+
+  tekma     Tekma     @relation(fields: [tekmaId], references: [id], onDelete: Cascade)
+  spremenil Uporabnik @relation(fields: [spremenilId], references: [id], onDelete: Restrict)
+}
+
+model RazpolozljivostIgralca {
+  id         Int                    @id @default(autoincrement())
+  igralecId  Int
+  status     StatusRazpolozljivosti
+  veljaOd    DateTime               @db.Date
+  veljaDo    DateTime?              @db.Date
+  ustvarjena DateTime               @default(now())
+
+  igralec Uporabnik @relation(fields: [igralecId], references: [id], onDelete: Cascade)
+
+  @@index([igralecId, veljaOd])
+}
+
+model Povabilo {
+  id                     Int       @id @default(autoincrement())
+  ePosta                 String
+  zgoscenaVrednostZetona String    @unique
+  ekipaId                Int
+  sezonaId               Int
+  vloga                  Vloga
+  poslanoOb              DateTime  @default(now())
+  datumPoteka            DateTime
+  datumSprejetja         DateTime?
+  ustvarilId             Int
+
+  ekipa    Ekipa     @relation(fields: [ekipaId], references: [id], onDelete: Restrict)
+  sezona   Sezona    @relation(fields: [sezonaId], references: [id], onDelete: Restrict)
+  ustvaril Uporabnik @relation(fields: [ustvarilId], references: [id], onDelete: Restrict)
+
+  @@index([ePosta])
+}
+
+// Strežniške seje (ADR-0005). `id` je identifikator seje iz piškotka.
+model Seja {
+  id          String   @id
+  uporabnikId Int?
+  podatkiSeje Json
+  datumPoteka DateTime
+
+  uporabnik Uporabnik? @relation(fields: [uporabnikId], references: [id], onDelete: Cascade)
+
+  @@index([datumPoteka])
+}
