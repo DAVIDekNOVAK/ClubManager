@@ -247,3 +247,12 @@ export interface PorociloTekme {
   igralci: IgralecPorocila[];
   preverjanje: string[];
 }
+
+export interface SpremembaTekme {
+  id: number;
+  datumSpremembe: string;
+  spremenil: { ime: string; priimek: string };
+  razlog: string;
+  /** Kratek opis razlik med starim in novim poročilom. */
+  spremembe: string[];
+}
