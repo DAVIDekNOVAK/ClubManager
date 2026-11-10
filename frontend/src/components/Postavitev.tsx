@@ -27,6 +27,7 @@ export function Postavitev() {
           </NavLink>
           <NavLink to="/ekipe">Ekipe</NavLink>
           {uporabnik.jeAdministrator && <NavLink to="/sezone">Sezone</NavLink>}
+          {uporabnik.jeAdministrator && <NavLink to="/povabila">Povabila</NavLink>}
         </nav>
         <div className="glava-uporabnik">
           <NavLink to="/profil">
