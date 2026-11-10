@@ -20,7 +20,19 @@ export function EkipaPodrobnosti() {
   const [dodajanje, setDodajanje] = useState(false);
   const [urejanje, setUrejanje] = useState<ClanEkipe | null>(null);
   const [uspeh, setUspeh] = useState<string | null>(null);
+  const [potrditevArhiva, setPotrditevArhiva] = useState(false);
+  const arhiv = useOddaja();
   const jeAdmin = uporabnik.jeAdministrator;
+
+  async function spremeniArhiv(arhiviraj: boolean) {
+    setUspeh(null);
+    const ok = await arhiv.oddaj(() => api.post(`/ekipe/${ekipaId}/${arhiviraj ? 'arhiviraj' : 'aktiviraj'}`));
+    setPotrditevArhiva(false);
+    if (ok) {
+      setUspeh(arhiviraj ? 'Ekipa je arhivirana. Zgodovinski podatki ostanejo shranjeni.' : 'Ekipa je ponovno aktivna.');
+      await Promise.all([ekipa.osvezi(), osveziProfil()]);
+    }
+  }
 
   async function poSpremembi(sporocilo: string) {
     setDodajanje(false);
@@ -46,9 +58,44 @@ export function EkipaPodrobnosti() {
             {e.mojeVloge.length > 0 && <> · moja vloga: {e.mojeVloge.map((v) => VLOGE[v]).join(', ')}</>}
           </>
         }
-        dejanja={<IzbiraSezone sezone={sezone} vrednost={sezonaId} obSpremembi={setSezonaId} />}
+        dejanja={
+          <>
+            <IzbiraSezone sezone={sezone} vrednost={sezonaId} obSpremembi={setSezonaId} />
+            {jeAdmin && !e.jeArhivirana && (
+              <button className="gumb gumb-nevaren" onClick={() => setPotrditevArhiva(true)}>
+                Arhiviraj
+              </button>
+            )}
+            {jeAdmin && e.jeArhivirana && (
+              <button className="gumb" onClick={() => spremeniArhiv(false)} disabled={arhiv.posiljanje}>
+                Ponovno aktiviraj
+              </button>
+            )}
+          </>
+        }
       />
       {uspeh && <Obvestilo vrsta="uspeh">{uspeh}</Obvestilo>}
+      {arhiv.napaka && <Obvestilo vrsta="napaka">{arhiv.napaka}</Obvestilo>}
+      {(arhiv.polja.naziv) && <Obvestilo vrsta="napaka">{arhiv.polja.naziv}</Obvestilo>}
+      {e.jeArhivirana && (
+        <Obvestilo vrsta="info">
+          Ekipa je arhivirana. Novih treningov in tekem zanjo ni mogoče ustvariti, zgodovinski podatki pa ostanejo vidni.
+        </Obvestilo>
+      )}
+      {potrditevArhiva && (
+        <Modal naslov="Arhiviranje ekipe" obZaprtju={() => setPotrditevArhiva(false)}>
+          <p>Ali res želite arhivirati ekipo {e.naziv}?</p>
+          <p className="tiho majhno">Treningi, tekme, evidence prisotnosti in statistika ekipe ostanejo shranjeni.</p>
+          <div className="dejanja">
+            <button className="gumb gumb-nevaren" onClick={() => spremeniArhiv(true)} disabled={arhiv.posiljanje}>
+              Arhiviraj ekipo
+            </button>
+            <button className="gumb" onClick={() => setPotrditevArhiva(false)}>
+              Prekliči
+            </button>
+          </div>
+        </Modal>
+      )}
 
       <Kartica
         naslov="Člani ekipe"
