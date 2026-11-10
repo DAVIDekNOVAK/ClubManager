@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
 import { danes, datum } from '../format';
-import { STATUSI_RAZPOLOZLJIVOSTI, type MojaRazpolozljivost, type StatusNaDan, type StatusRazpolozljivosti } from '../tipi';
+import { STATUSI_RAZPOLOZLJIVOSTI, type MojaRazpolozljivost, type RazpolozljivostEkipe, type StatusNaDan, type StatusRazpolozljivosti } from '../tipi';
 import { Kartica, Obvestilo, Polje, Stanje, useNalozi, useOddaja, Znacka } from './ui';
 
 export function ZnackaRazpolozljivosti({ status }: { status: StatusRazpolozljivosti }) {
@@ -118,6 +118,48 @@ export function ZgodovinaRazpolozljivosti() {
             </tbody>
           </table>
         </div>
+      )}
+    </Kartica>
+  );
+}
+
+/** Pregled razpoložljivosti igralcev ekipe na dan tekme (US-17). */
+export function RazpolozljivostTekme({ tekmaId, datumTekme }: { tekmaId: number; datumTekme: string }) {
+  const razp = useNalozi(() => api.get<RazpolozljivostEkipe>(`/tekme/${tekmaId}/razpolozljivost`), [tekmaId]);
+  const vrstniRed: StatusRazpolozljivosti[] = ['NA_VOLJO', 'OMEJENO_TRENIRANJE', 'POSKODOVAN', 'ODSOTEN'];
+
+  return (
+    <Kartica naslov="Razpoložljivost igralcev" dejanja={<span className="tiho majhno">stanje na dan tekme, {datum(datumTekme)}</span>}>
+      <Stanje nalaganje={razp.nalaganje} napaka={razp.napaka} />
+      {razp.podatki && (
+        <>
+          {/* Povzetek s številom igralcev po posameznem statusu (AC 3). */}
+          <div className="kazalniki" style={{ marginBottom: '1rem' }}>
+            {vrstniRed.map((s) => (
+              <div key={s} className={`kazalnik status-${STATUSI_RAZPOLOZLJIVOSTI[s].barva}`}>
+                <div className="kazalnik-vrednost">{razp.podatki!.povzetek[s]}</div>
+                <div className="majhno">{STATUSI_RAZPOLOZLJIVOSTI[s].naziv}</div>
+              </div>
+            ))}
+          </div>
+          {razp.podatki.igralci.length === 0 ? (
+            <p className="tiho">Ekipa na dan tekme nima igralcev z veljavnim članstvom.</p>
+          ) : (
+            <ul className="seznam dvostolpcno">
+              {razp.podatki.igralci.map((i) => (
+                <li key={i.igralecId} className="vrstica">
+                  <span>
+                    {i.ime} {i.priimek}
+                  </span>
+                  <span className="dejanja">
+                    {i.status !== 'NA_VOLJO' && i.veljaDo && <span className="tiho majhno">do {datum(i.veljaDo)}</span>}
+                    <ZnackaRazpolozljivosti status={i.status} />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
     </Kartica>
   );

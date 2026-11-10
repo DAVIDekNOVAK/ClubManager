@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
+import { useUporabnik } from '../auth';
+import { RazpolozljivostTekme } from '../components/razpolozljivost';
 import { izpisRezultata, naslovTekme, ObrazecTekme, ZnackaTekme } from '../components/tekme';
 import { GlavaStrani, Kartica, Modal, Obvestilo, Stanje, useNalozi, useOddaja } from '../components/ui';
 import { datumUra } from '../format';
@@ -8,6 +10,7 @@ import { VRSTE_TEKMOVANJA, type Tekma } from '../tipi';
 
 export function TekmaPodrobnosti() {
   const id = Number(useParams().id);
+  const uporabnik = useUporabnik();
   const tekma = useNalozi(() => api.get<Tekma>(`/tekme/${id}`), [id]);
   const [urejanje, setUrejanje] = useState(false);
   const [potrditevOdpovedi, setPotrditevOdpovedi] = useState(false);
@@ -101,6 +104,11 @@ export function TekmaPodrobnosti() {
             </tbody>
           </table>
         </Kartica>
+      )}
+
+      {/* Trener (in administrator) pred tekmo vidi razpoložljivost igralcev na dan tekme (US-17). */}
+      {(t.jeTrener || uporabnik.jeAdministrator) && t.status !== 'ODPOVEDANA' && (
+        <RazpolozljivostTekme tekmaId={t.id} datumTekme={t.datumInUra} />
       )}
 
       {potrditevOdpovedi && (
