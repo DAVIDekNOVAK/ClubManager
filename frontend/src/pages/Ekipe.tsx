@@ -7,7 +7,11 @@ import { KATEGORIJE, type Ekipa, type Kategorija } from '../tipi';
 
 export function Ekipe() {
   const uporabnik = useUporabnik();
-  const { podatki: ekipe, napaka, nalaganje, osvezi } = useNalozi(() => api.get<Ekipa[]>('/ekipe'));
+  const [arhivirane, setArhivirane] = useState(false);
+  const { podatki: ekipe, napaka, nalaganje, osvezi } = useNalozi(
+    () => api.get<Ekipa[]>(`/ekipe${arhivirane ? '?arhivirane=true' : ''}`),
+    [arhivirane],
+  );
   const [obrazecOdprt, setObrazecOdprt] = useState(false);
   const [uspeh, setUspeh] = useState<string | null>(null);
 
@@ -37,9 +41,20 @@ export function Ekipe() {
           }}
         />
       )}
-      <Kartica>
+      <Kartica
+        dejanja={
+          <div className="dejanja" role="group" aria-label="Filter ekip">
+            <button className={`gumb gumb-majhen${arhivirane ? '' : ' gumb-glavni'}`} onClick={() => setArhivirane(false)}>
+              Aktivne
+            </button>
+            <button className={`gumb gumb-majhen${arhivirane ? ' gumb-glavni' : ''}`} onClick={() => setArhivirane(true)}>
+              Arhivirane
+            </button>
+          </div>
+        }
+      >
         <Stanje nalaganje={nalaganje} napaka={napaka} />
-        {ekipe && ekipe.length === 0 && <p className="tiho">Ni ekip za prikaz.</p>}
+        {ekipe && ekipe.length === 0 && <p className="tiho">{arhivirane ? 'Ni arhiviranih ekip.' : 'Ni ekip za prikaz.'}</p>}
         {ekipe && ekipe.length > 0 && (
           <div className="tabela-ovoj">
             <table>
