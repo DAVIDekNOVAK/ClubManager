@@ -761,3 +761,13 @@ th.stevilo {
   background: var(--siva-svetla);
   color: #4b5652;
 }
+
+.dvostolpcno {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  column-gap: 2rem;
+}
+.dvostolpcno > li:not(.aktivnost) {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--rob) !important;
+}
