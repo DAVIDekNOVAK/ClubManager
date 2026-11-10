@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useUporabnik } from '../auth';
 import { GlavaStrani, Kartica, Znacka } from '../components/ui';
 import { KATEGORIJE, VLOGE } from '../tipi';
@@ -20,7 +21,7 @@ export function Domov() {
             {uporabnik.ekipe.map((e) => (
               <li key={e.id} className="vrstica">
                 <span>
-                  <strong>{e.naziv}</strong> <span className="tiho">· {KATEGORIJE[e.kategorija]}</span>
+                  <Link to={`/ekipe/${e.id}`}><strong>{e.naziv}</strong></Link> <span className="tiho">· {KATEGORIJE[e.kategorija]}</span>
                 </span>
                 <span className="dejanja">
                   {e.vloge.map((v) => (

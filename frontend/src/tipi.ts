@@ -59,3 +59,24 @@ export interface Profil {
   /** Trenutne ekipe uporabnika z združenimi vlogami. */
   ekipe: (EkipaKratko & { vloge: Vloga[] })[];
 }
+
+export interface UporabnikKratko {
+  id: number;
+  ime: string;
+  priimek: string;
+  ePosta?: string;
+}
+export interface ClanEkipe {
+  id: number;
+  ekipaId: number;
+  sezonaId: number;
+  datumPridruzitve: string;
+  datumOdhoda: string | null;
+  uporabnik: UporabnikKratko;
+  vloge: Vloga[];
+  jeOdsel: boolean;
+}
+export interface EkipaPodrobno extends EkipaKratko {
+  mojeVloge: Vloga[];
+}
+export const polnoIme = (u: { ime: string; priimek: string }) => `${u.ime} ${u.priimek}`;

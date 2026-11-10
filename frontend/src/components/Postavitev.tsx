@@ -29,10 +29,10 @@ export function Postavitev() {
           {uporabnik.jeAdministrator && <NavLink to="/sezone">Sezone</NavLink>}
         </nav>
         <div className="glava-uporabnik">
-          <span>
+          <NavLink to="/profil">
             {uporabnik.ime} {uporabnik.priimek}
             {uporabnik.jeAdministrator && ' (administrator)'}
-          </span>
+          </NavLink>
           <button className="gumb gumb-majhen" onClick={obOdjavi}>
             Odjava
           </button>

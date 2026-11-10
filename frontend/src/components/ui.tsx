@@ -121,3 +121,20 @@ export function useOddaja() {
 
   return { napaka, polja, posiljanje, oddaj, pocisti };
 }
+
+export function Modal({ naslov, children, obZaprtju }: { naslov: string; children: ReactNode; obZaprtju: () => void }) {
+  useEffect(() => {
+    const obTipki = (e: KeyboardEvent) => e.key === 'Escape' && obZaprtju();
+    window.addEventListener('keydown', obTipki);
+    return () => window.removeEventListener('keydown', obTipki);
+  }, [obZaprtju]);
+
+  return (
+    <div className="modal-ozadje" onMouseDown={(e) => e.target === e.currentTarget && obZaprtju()}>
+      <div className="modal" role="dialog" aria-modal="true" aria-label={naslov}>
+        <h2>{naslov}</h2>
+        {children}
+      </div>
+    </div>
+  );
+}
