@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useUporabnik } from '../auth';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { DogodkiNaTekmi } from '../components/dogodki';
 import { opisTekme, ZnackaTekme } from '../components/tekme';
-import { GlavaStrani, izNapake, Kartica, Modal, Obvestilo, Stanje, Znacka } from '../components/ui';
-import { polnoIme, STATUSI_RAZPOLOZLJIVOSTI, type Dogodek, type IgralecPorocila, type Nastop, type PorociloTekme } from '../tipi';
+import { GlavaStrani, izNapake, Kartica, Modal, Obvestilo, Polje, Stanje, Znacka } from '../components/ui';
+import { datumUra } from '../format';
+import { polnoIme, STATUSI_RAZPOLOZLJIVOSTI, type Dogodek, type IgralecPorocila, type Nastop, type PorociloTekme, type SpremembaTekme } from '../tipi';
 
 /** Poročilo o tekmi (US-11, US-12, WF-03): rezultat, začetna postava, klop, odigrane minute in dogodki. */
 export function Porocilo() {
@@ -20,6 +22,12 @@ export function Porocilo() {
   const [izbranIgralec, setIzbranIgralec] = useState('');
   const [sporocilo, setSporocilo] = useState<{ vrsta: 'uspeh' | 'napaka'; besedilo: string } | null>(null);
   const [posiljanje, setPosiljanje] = useState(false);
+  // Popravek zaključenega poročila (US-13).
+  const uporabnik = useUporabnik();
+  const [popravljanje, setPopravljanje] = useState(false);
+  const [razlog, setRazlog] = useState('');
+  const [napakaRazloga, setNapakaRazloga] = useState<string | undefined>();
+  const [zgodovina, setZgodovina] = useState<SpremembaTekme[]>([]);
 
   async function nalozi() {
     try {
@@ -43,6 +51,10 @@ export function Porocilo() {
       const zOpozorilom = new Set(p.igralci.filter((i) => i.zahtevaPotrditev).map((i) => i.igralecId));
       setPotrjenaOpozorila(p.nastopi.filter((n) => zOpozorilom.has(n.igralecId)).map((n) => n.igralecId));
       setNapakaNalaganja(null);
+      // Zgodovino sprememb vidita samo trener ekipe in administrator (US-13, AC 5).
+      if (p.tekma.jeTrener || uporabnik.jeAdministrator) {
+        setZgodovina(await api.get<SpremembaTekme[]>(`/tekme/${id}/zgodovina`).catch(() => []));
+      }
     } catch (e) {
       setNapakaNalaganja(izNapake(e).sporocilo);
     }
@@ -55,7 +67,7 @@ export function Porocilo() {
 
   if (!podatki) return <Stanje nalaganje={!napakaNalaganja} napaka={napakaNalaganja} />;
   const t = podatki.tekma;
-  const lahkoUreja = t.jeTrener && t.status === 'ODIGRANA';
+  const lahkoUreja = t.jeTrener && (t.status === 'ODIGRANA' || (t.status === 'ZAKLJUCENA' && popravljanje));
   const igralecPoId = new Map(podatki.igralci.map((i) => [i.igralecId, i]));
   const zacetna = nastopi.filter((n) => n.zacetnaPostava);
   const klop = nastopi.filter((n) => !n.zacetnaPostava);
@@ -118,6 +130,38 @@ export function Porocilo() {
     }
   }
 
+  async function shraniPopravek() {
+    // Pred shranjevanjem popravka je obvezen razlog, 10–200 znakov (US-13, AC 2).
+    const dolzina = razlog.trim().length;
+    if (dolzina < 10 || dolzina > 200) {
+      setNapakaRazloga('Razlog popravka mora imeti od 10 do 200 znakov');
+      return;
+    }
+    setPosiljanje(true);
+    setSporocilo(null);
+    setNapakaRazloga(undefined);
+    try {
+      await api.put(`/tekme/${id}/porocilo/popravek`, { ...telo(), razlog });
+      setPopravljanje(false);
+      setRazlog('');
+      await nalozi();
+      setSporocilo({ vrsta: 'uspeh', besedilo: 'Popravek je shranjen in zabeležen v zgodovini sprememb. Statistika upošteva nove podatke.' });
+    } catch (e) {
+      const n = izNapake(e);
+      setNapakaRazloga(n.polja.razlog);
+      if (!n.polja.razlog) setSporocilo({ vrsta: 'napaka', besedilo: n.sporocilo });
+    } finally {
+      setPosiljanje(false);
+    }
+  }
+
+  async function prekliciPopravek() {
+    setPopravljanje(false);
+    setRazlog('');
+    setNapakaRazloga(undefined);
+    await nalozi();
+  }
+
   const vrstica = (n: Nastop) => {
     const igralec = igralecPoId.get(n.igralecId);
     const status = igralec ? STATUSI_RAZPOLOZLJIVOSTI[igralec.status] : null;
@@ -167,8 +211,19 @@ export function Porocilo() {
             <Link to="/tekme">Tekme</Link> / <Link to={`/tekme/${t.id}`}>{domaci.naziv} – {gosti.naziv}</Link> · {opisTekme(t)}
           </>
         }
-        dejanja={<ZnackaTekme tekma={t} />}
+        dejanja={
+          <>
+            <ZnackaTekme tekma={t} />
+            {/* Gumb je prikazan samo trenerju ekipe pri zaključeni tekmi (US-13, AC 1). */}
+            {t.jeTrener && t.status === 'ZAKLJUCENA' && !popravljanje && (
+              <button className="gumb" onClick={() => { setPopravljanje(true); setSporocilo(null); }}>
+                Popravi poročilo
+              </button>
+            )}
+          </>
+        }
       />
+      {popravljanje && <Obvestilo vrsta="opozorilo">Popravljate zaključeno poročilo. Sprememba bo zabeležena v zgodovini sprememb tekme.</Obvestilo>}
       {sporocilo && <Obvestilo vrsta={sporocilo.vrsta}>{sporocilo.besedilo}</Obvestilo>}
 
       <div className="semafor">
@@ -225,7 +280,7 @@ export function Porocilo() {
 
         <div>
           <DogodkiNaTekmi dogodki={dogodki} nastopi={nastopi} igralci={igralecPoId} lahkoUreja={lahkoUreja} obSpremembi={setDogodki} />
-          {(lahkoUreja || t.status === 'ODIGRANA') && (
+          {lahkoUreja && (
             <Kartica naslov="Preverjanje">
               <ul className="seznam">
                 {preverjanje.map((p) => (
@@ -236,7 +291,22 @@ export function Porocilo() {
               </ul>
             </Kartica>
           )}
-          {lahkoUreja && (
+          {lahkoUreja && popravljanje && (
+            <Kartica naslov="Razlog popravka">
+              <Polje oznaka="Zakaj popravljate poročilo?" napaka={napakaRazloga} namig={`${razlog.trim().length}/200 znakov, najmanj 10`}>
+                <textarea value={razlog} onChange={(e) => setRazlog(e.target.value)} maxLength={200} rows={2} />
+              </Polje>
+              <div className="dejanja" style={{ justifyContent: 'flex-end', marginTop: '0.75rem' }}>
+                <button className="gumb" onClick={prekliciPopravek} disabled={posiljanje}>
+                  Prekliči
+                </button>
+                <button className="gumb gumb-glavni" onClick={shraniPopravek} disabled={posiljanje || !vseOk}>
+                  Shrani popravek
+                </button>
+              </div>
+            </Kartica>
+          )}
+          {lahkoUreja && !popravljanje && (
             <>
               <div className="dejanja" style={{ justifyContent: 'flex-end' }}>
                 <button className="gumb" onClick={() => shrani(false)} disabled={posiljanje}>
@@ -253,6 +323,30 @@ export function Porocilo() {
           )}
         </div>
       </div>
+
+      {(t.jeTrener || uporabnik.jeAdministrator) && t.status === 'ZAKLJUCENA' && (
+        <Kartica naslov="Zgodovina sprememb">
+          {zgodovina.length === 0 ? (
+            <p className="tiho">Poročilo po potrditvi ni bilo popravljeno.</p>
+          ) : (
+            <ul className="seznam">
+              {zgodovina.map((z) => (
+                <li key={z.id}>
+                  <div>
+                    <strong>{datumUra(z.datumSpremembe)}</strong> · {polnoIme(z.spremenil)}
+                  </div>
+                  <div>Razlog: {z.razlog}</div>
+                  <ul className="tiho majhno" style={{ margin: '0.25rem 0 0', paddingLeft: '1.1rem' }}>
+                    {z.spremembe.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Kartica>
+      )}
 
       {zaPotrditev && (
         <Modal naslov="Opozorilo o razpoložljivosti" obZaprtju={() => setZaPotrditev(null)}>
