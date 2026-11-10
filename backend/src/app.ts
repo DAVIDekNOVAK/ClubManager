@@ -14,6 +14,7 @@ import { sezoneRouter } from './modules/sezone/routes.js';
 import { popravekRouter } from './modules/tekme/popravek.js';
 import { porociloRouter } from './modules/tekme/porocilo.js';
 import { razpolozljivostTekmeRouter } from './modules/tekme/razpolozljivost.js';
+import { statistikaRouter } from './modules/statistika/routes.js';
 import { tekmeRouter } from './modules/tekme/routes.js';
 import { prisotnostRouter } from './modules/treningi/prisotnost.js';
 import { treningiRouter } from './modules/treningi/routes.js';
@@ -52,6 +53,7 @@ export function ustvariAplikacijo() {
   api.use('/povabila', povabilaRouter);
   api.use('/nasprotni-klubi', klubiRouter);
   api.use('/razpolozljivost', razpolozljivostRouter);
+  api.use('/statistika', statistikaRouter);
   api.use('/tekme', tekmeRouter);
   api.use('/tekme', razpolozljivostTekmeRouter);
   api.use('/tekme', porociloRouter);

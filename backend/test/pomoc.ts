@@ -118,3 +118,53 @@ export async function ustvariTekmo(klub: { ekipa: { id: number }; sezona: { id: 
     },
   });
 }
+
+/**
+ * Zaključena tekma testnega kluba: prvih 11 igralcev v začetni postavi (90 minut), 12. igralec
+ * na klopi brez minut. `goli` so pari [strelec, asistent?], `kartoni` pari [igralec, vrsta] (indeksi igralcev).
+ */
+export async function zakljucenaTekma(
+  klub: { ekipa: { id: number }; sezona: { id: number }; igralci: { id: number }[] },
+  moznosti: { goli?: [number, number?][]; goliNasprotnika?: number; kartoni?: [number, 'RUMENI_KARTON' | 'RDECI_KARTON'][]; status?: 'ZAKLJUCENA' | 'ODIGRANA'; urNazaj?: number; sezonaId?: number; ekipaId?: number } = {},
+) {
+  const goli = moznosti.goli ?? [];
+  const tekma = await ustvariTekmo(
+    { ekipa: { id: moznosti.ekipaId ?? klub.ekipa.id }, sezona: { id: moznosti.sezonaId ?? klub.sezona.id } },
+    moznosti.urNazaj ?? 24,
+    { status: moznosti.status ?? 'ZAKLJUCENA', domaciGoli: goli.length, gostujociGoli: moznosti.goliNasprotnika ?? 0 },
+  );
+  await prisma.nastopNaTekmi.createMany({
+    data: klub.igralci.slice(0, 12).map((i, n) => ({ tekmaId: tekma.id, igralecId: i.id, zacetnaPostava: n < 11, odigraneMinute: n < 11 ? 90 : 0 })),
+  });
+  for (const [n, [strelec, asistent]] of goli.entries()) {
+    const gol = await prisma.dogodekNaTekmi.create({ data: { tekmaId: tekma.id, vrstaDogodka: 'GOL', igralecId: klub.igralci[strelec].id, minuta: 10 + n } });
+    if (asistent !== undefined) {
+      await prisma.dogodekNaTekmi.create({ data: { tekmaId: tekma.id, vrstaDogodka: 'ASISTENCA', igralecId: klub.igralci[asistent].id, minuta: 10 + n, golId: gol.id } });
+    }
+  }
+  for (const [igralec, vrsta] of moznosti.kartoni ?? []) {
+    await prisma.dogodekNaTekmi.create({ data: { tekmaId: tekma.id, vrstaDogodka: vrsta, igralecId: klub.igralci[igralec].id, minuta: 60 } });
+  }
+  return tekma;
+}
+
+/** Trening testnega kluba pred `dniNazaj` dnevi z dano dejansko prisotnostjo po igralcih (indeks → vrednost). */
+export async function izvedenTrening(
+  klub: { ekipa: { id: number }; sezona: { id: number }; igralci: { id: number }[] },
+  dniNazaj: number,
+  odsotni: number[] = [],
+  status: 'IZVEDEN' | 'ODPOVEDAN' | 'NACRTOVAN' = 'IZVEDEN',
+) {
+  const zacetek = new Date(Date.now() - dniNazaj * 86_400_000);
+  const trening = await prisma.trening.create({
+    data: { ekipaId: klub.ekipa.id, sezonaId: klub.sezona.id, zacetek, konec: new Date(zacetek.getTime() + 5_400_000), lokacija: 'Igrišče', status },
+  });
+  await prisma.prisotnost.createMany({
+    data: klub.igralci.map((i, n) => ({
+      treningId: trening.id,
+      igralecId: i.id,
+      dejanskaPrisotnost: status === 'IZVEDEN' ? (odsotni.includes(n) ? ('NEOPRAVICENO_ODSOTEN' as const) : ('PRISOTEN' as const)) : null,
+    })),
+  });
+  return trening;
+}
