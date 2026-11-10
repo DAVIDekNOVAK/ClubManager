@@ -3,9 +3,11 @@ import { neznanaPot, obravnavaNapak } from './common/errors.js';
 import { zahtevajPrijavo } from './common/pravice.js';
 import { authRouter } from './modules/auth/routes.js';
 import { csrfZascita, sejeMiddleware } from './modules/auth/seja.js';
+import { clanstvaEkipe, clanstvaRouter } from './modules/clanstva/routes.js';
 import { ekipeRouter } from './modules/ekipe/routes.js';
 import { healthRouter } from './modules/health/routes.js';
 import { sezoneRouter } from './modules/sezone/routes.js';
+import { uporabnikiRouter } from './modules/uporabniki/routes.js';
 
 /** Sestavi aplikacijo Express. Ločeno od zagona strežnika, da jo lahko uporabijo testi. */
 export function ustvariAplikacijo() {
@@ -29,7 +31,10 @@ export function ustvariAplikacijo() {
   // Vse poti od tu naprej zahtevajo prijavo.
   api.use(zahtevajPrijavo);
   api.use('/sezone', sezoneRouter);
+  api.get('/ekipe/:id/clanstva', clanstvaEkipe);
   api.use('/ekipe', ekipeRouter);
+  api.use('/clanstva', clanstvaRouter);
+  api.use('/uporabniki', uporabnikiRouter);
 
   app.use('/api', api);
   app.use(neznanaPot);
