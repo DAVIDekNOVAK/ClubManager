@@ -22,6 +22,9 @@ export interface EkipaKratko {
   kategorija: Kategorija;
   jeArhivirana: boolean;
 }
+export interface Ekipa extends EkipaKratko {
+  steviloClanov: number;
+}
 export interface SezonaKratko {
   id: number;
   naziv: string;
