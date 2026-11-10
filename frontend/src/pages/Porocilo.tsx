@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
+import { DogodkiNaTekmi } from '../components/dogodki';
 import { opisTekme, ZnackaTekme } from '../components/tekme';
 import { GlavaStrani, izNapake, Kartica, Modal, Obvestilo, Stanje, Znacka } from '../components/ui';
-import { polnoIme, STATUSI_RAZPOLOZLJIVOSTI, type IgralecPorocila, type Nastop, type PorociloTekme } from '../tipi';
+import { polnoIme, STATUSI_RAZPOLOZLJIVOSTI, type Dogodek, type IgralecPorocila, type Nastop, type PorociloTekme } from '../tipi';
 
-/** Poročilo o tekmi (US-11, WF-03): rezultat, začetna postava, klop in odigrane minute. */
+/** Poročilo o tekmi (US-11, US-12, WF-03): rezultat, začetna postava, klop, odigrane minute in dogodki. */
 export function Porocilo() {
   const id = Number(useParams().id);
   const [podatki, setPodatki] = useState<PorociloTekme | null>(null);
@@ -13,6 +14,7 @@ export function Porocilo() {
   const [nasiGoli, setNasiGoli] = useState('');
   const [goliNasprotnika, setGoliNasprotnika] = useState('');
   const [nastopi, setNastopi] = useState<Nastop[]>([]);
+  const [dogodki, setDogodki] = useState<Dogodek[]>([]);
   const [potrjenaOpozorila, setPotrjenaOpozorila] = useState<number[]>([]);
   const [zaPotrditev, setZaPotrditev] = useState<{ igralec: IgralecPorocila; zacetnaPostava: boolean } | null>(null);
   const [izbranIgralec, setIzbranIgralec] = useState('');
@@ -36,6 +38,7 @@ export function Porocilo() {
       setNasiGoli(p.nasiGoli === null ? '' : String(p.nasiGoli));
       setGoliNasprotnika(p.goliNasprotnika === null ? '' : String(p.goliNasprotnika));
       setNastopi(p.nastopi);
+      setDogodki(p.dogodki);
       // Za že shranjene igralce z opozorilom je trener opozorilo potrdil ob izbiri.
       const zOpozorilom = new Set(p.igralci.filter((i) => i.zahtevaPotrditev).map((i) => i.igralecId));
       setPotrjenaOpozorila(p.nastopi.filter((n) => zOpozorilom.has(n.igralecId)).map((n) => n.igralecId));
@@ -59,12 +62,18 @@ export function Porocilo() {
   const prosti = podatki.igralci.filter((i) => !nastopi.some((n) => n.igralecId === i.igralecId));
 
   const stevilo = (v: string) => (v.trim() === '' || Number.isNaN(Number(v)) ? null : Number(v));
-  const telo = () => ({ nasiGoli: stevilo(nasiGoli), goliNasprotnika: stevilo(goliNasprotnika), nastopi, potrjenaOpozorila });
+  const telo = () => ({ nasiGoli: stevilo(nasiGoli), goliNasprotnika: stevilo(goliNasprotnika), nastopi, dogodki, potrjenaOpozorila });
+
+  const steviloGolov = dogodki.filter((d) => d.vrsta === 'GOL').length;
 
   // Sprotno preverjanje pogojev za potrditev (polje »Preverjanje« na WF-03).
   const preverjanje = [
     { ok: stevilo(nasiGoli) !== null && stevilo(goliNasprotnika) !== null, besedilo: 'Rezultat je vnesen' },
     { ok: zacetna.length === 11, besedilo: `Začetna postava ${zacetna.length}/11` },
+    // Število vnesenih golov se mora ujemati z rezultatom (US-12, AC 2).
+    steviloGolov === stevilo(nasiGoli)
+      ? { ok: true, besedilo: `Goli (${steviloGolov}) se ujemajo z rezultatom` }
+      : { ok: false, besedilo: 'Število golov se ne ujema z rezultatom' },
   ];
   const vseOk = preverjanje.every((p) => p.ok);
 
@@ -81,7 +90,15 @@ export function Porocilo() {
   }
   const spremeni = (igralecId: number, sprememba: Partial<Nastop>) =>
     setNastopi(nastopi.map((n) => (n.igralecId === igralecId ? { ...n, ...sprememba } : n)));
-  const odstrani = (igralecId: number) => setNastopi(nastopi.filter((n) => n.igralecId !== igralecId));
+  function odstrani(igralecId: number) {
+    setNastopi(nastopi.filter((n) => n.igralecId !== igralecId));
+    // Z igralcem se odstranijo tudi njegovi dogodki.
+    setDogodki(
+      dogodki
+        .filter((d) => d.igralecId !== igralecId && d.vstopilIgralecId !== igralecId)
+        .map((d) => (d.asistentId === igralecId ? { ...d, asistentId: null } : d)),
+    );
+  }
 
   async function shrani(potrdi: boolean) {
     setPosiljanje(true);
@@ -207,6 +224,7 @@ export function Porocilo() {
         </Kartica>
 
         <div>
+          <DogodkiNaTekmi dogodki={dogodki} nastopi={nastopi} igralci={igralecPoId} lahkoUreja={lahkoUreja} obSpremembi={setDogodki} />
           {(lahkoUreja || t.status === 'ODIGRANA') && (
             <Kartica naslov="Preverjanje">
               <ul className="seznam">

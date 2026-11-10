@@ -15,6 +15,11 @@ describe('US-11 – vnos rezultata in postave', () => {
     nasiGoli: 2,
     goliNasprotnika: 1,
     nastopi: klub.igralci.slice(0, zacetnih + klop).map((i, n) => ({ igralecId: i.id, zacetnaPostava: n < zacetnih, odigraneMinute: n < zacetnih ? 90 : 0 })),
+    // Dva gola, da se število golov ujema z rezultatom (US-12).
+    dogodki: [
+      { vrsta: 'GOL', igralecId: klub.igralci[0].id, minuta: 10 },
+      { vrsta: 'GOL', igralecId: klub.igralci[1].id, minuta: 50 },
+    ],
     ...prepis,
   });
 
@@ -135,7 +140,7 @@ describe('US-11 – vnos rezultata in postave', () => {
     const gostujoca = await ustvariTekmo(klub, 5, { jeDomaca: false });
     const trener = await prijavljen(app, E_TRENER);
     await trener.post(`/api/tekme/${gostujoca.id}/porocilo/odpri`);
-    await trener.post(`/api/tekme/${gostujoca.id}/porocilo/potrdi`).send(porocilo(11, 0, { nasiGoli: 3, goliNasprotnika: 0 }));
-    expect(await prisma.tekma.findUniqueOrThrow({ where: { id: gostujoca.id } })).toMatchObject({ domaciGoli: 0, gostujociGoli: 3 });
+    await trener.post(`/api/tekme/${gostujoca.id}/porocilo/potrdi`).send(porocilo(11, 0, { nasiGoli: 2, goliNasprotnika: 0 }));
+    expect(await prisma.tekma.findUniqueOrThrow({ where: { id: gostujoca.id } })).toMatchObject({ domaciGoli: 0, gostujociGoli: 2 });
   });
 });

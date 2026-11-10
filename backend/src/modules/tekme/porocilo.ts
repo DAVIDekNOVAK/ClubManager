@@ -4,12 +4,12 @@ import { asinh, idIzPoti } from '../../common/http.js';
 import { imaVlogo, trenutni, zahtevajVlogo } from '../../common/pravice.js';
 import { prisma } from '../../common/prisma.js';
 import {
-  igralciZaPorocilo, porociloShema, preberiPorocilo, preveriNastope, preveriPopolnost,
+  igralciZaPorocilo, porociloShema, preberiPorocilo, preveriPorocilo, preveriPopolnost,
   shraniPorocilo, zahtevajOdprtoPorocilo, zahtevajPopolnost,
 } from './porociloSkupno.js';
 import { izpisTekem, naloziTekmo } from './skupno.js';
 
-/** Poročilo o tekmi: rezultat, postava in minute (US-11). */
+/** Poročilo o tekmi: rezultat, postava in minute (US-11) ter dogodki (US-12). */
 export const porociloRouter = Router();
 
 // Trener odpre poročilo po terminu tekme; tekma s tem dobi status »Odigrana« (US-11, AC 1).
@@ -55,7 +55,7 @@ porociloRouter.put(
     await zahtevajVlogo(req, tekma.ekipaId, 'TRENER');
     zahtevajOdprtoPorocilo(tekma);
     const porocilo = porociloShema.parse(req.body);
-    await preveriNastope(tekma, porocilo);
+    await preveriPorocilo(tekma, porocilo);
 
     await prisma.$transaction((tx) => shraniPorocilo(tx, tekma, porocilo, 'ODIGRANA'));
     res.json({ status: 'ODIGRANA', preverjanje: preveriPopolnost(porocilo) });
@@ -70,7 +70,7 @@ porociloRouter.post(
     await zahtevajVlogo(req, tekma.ekipaId, 'TRENER');
     zahtevajOdprtoPorocilo(tekma);
     const porocilo = porociloShema.parse(req.body);
-    await preveriNastope(tekma, porocilo);
+    await preveriPorocilo(tekma, porocilo);
     zahtevajPopolnost(porocilo);
 
     await prisma.$transaction((tx) => shraniPorocilo(tx, tekma, porocilo, 'ZAKLJUCENA'));
