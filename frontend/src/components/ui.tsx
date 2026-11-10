@@ -88,3 +88,36 @@ export function GlavaStrani({ naslov, podnaslov, dejanja }: { naslov: ReactNode;
     </div>
   );
 }
+
+/** Stanje oddaje obrazca: pošiljanje, splošna napaka in napake po poljih. */
+export function useOddaja() {
+  const [napaka, setNapaka] = useState<string | null>(null);
+  const [polja, setPolja] = useState<Record<string, string>>({});
+  const [posiljanje, setPosiljanje] = useState(false);
+
+  /** Izvede dejanje; vrne `true`, če je uspelo. Napako API-ja razdeli na splošno in napake po poljih. */
+  async function oddaj(dejanje: () => Promise<unknown>): Promise<boolean> {
+    setPosiljanje(true);
+    setNapaka(null);
+    setPolja({});
+    try {
+      await dejanje();
+      return true;
+    } catch (e) {
+      const n = izNapake(e);
+      setPolja(n.polja);
+      // Če je napaka vezana na polja, se prikaže ob njih; sicer nad obrazcem.
+      setNapaka(Object.keys(n.polja).length > 0 ? null : n.sporocilo);
+      return false;
+    } finally {
+      setPosiljanje(false);
+    }
+  }
+
+  const pocisti = () => {
+    setNapaka(null);
+    setPolja({});
+  };
+
+  return { napaka, polja, posiljanje, oddaj, pocisti };
+}

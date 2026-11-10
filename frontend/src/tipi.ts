@@ -28,6 +28,15 @@ export interface SezonaKratko {
   datumZacetka: string;
   datumKonca: string;
 }
+export type StatusSezone = 'NACRTOVANA' | 'AKTIVNA' | 'ZAKLJUCENA';
+export interface Sezona extends SezonaKratko {
+  status: StatusSezone;
+}
+export const STATUSI_SEZONE: Record<StatusSezone, { naziv: string; barva: 'modra' | 'zelena' | 'siva' }> = {
+  NACRTOVANA: { naziv: 'Načrtovana', barva: 'modra' },
+  AKTIVNA: { naziv: 'Aktivna', barva: 'zelena' },
+  ZAKLJUCENA: { naziv: 'Zaključena', barva: 'siva' },
+};
 export interface Clanstvo {
   id: number;
   datumPridruzitve: string;

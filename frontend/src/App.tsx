@@ -3,6 +3,7 @@ import { Postavitev } from './components/Postavitev';
 import { Domov } from './pages/Domov';
 import { NiNajdeno } from './pages/NiNajdeno';
 import { Prijava } from './pages/Prijava';
+import { Sezone } from './pages/Sezone';
 
 export function App() {
   return (
@@ -11,6 +12,7 @@ export function App() {
       {/* Vse poti znotraj Postavitve so zaščitene – neprijavljen uporabnik je preusmerjen na prijavo. */}
       <Route element={<Postavitev />}>
         <Route index element={<Domov />} />
+        <Route path="sezone" element={<Sezone />} />
         <Route path="*" element={<NiNajdeno />} />
       </Route>
     </Routes>
