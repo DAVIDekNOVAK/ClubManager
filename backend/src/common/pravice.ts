@@ -4,6 +4,7 @@ import { dan } from './datumi.js';
 import { neprijavljen, prepovedano } from './errors.js';
 import { asinh } from './http.js';
 import { prisma } from './prisma.js';
+import { poPriimku } from './razvrsti.js';
 
 export interface PrijavljenUporabnik {
   id: number;
@@ -107,9 +108,8 @@ export async function veljavniIgralci(ekipaId: number, sezonaId: number, naDan: 
   const clanstva = await prisma.clanstvoVEkipi.findMany({
     where: { ekipaId, sezonaId, ...veljaNaDan(naDan), vloge: { some: { vloga: 'IGRALEC' } } },
     select: { uporabnik: { select: { id: true, ime: true, priimek: true } } },
-    orderBy: [{ uporabnik: { priimek: 'asc' } }, { uporabnik: { ime: 'asc' } }],
   });
-  return clanstva.map((c) => c.uporabnik);
+  return clanstva.map((c) => c.uporabnik).sort(poPriimku);
 }
 
 /** Sezona, v katero spada izbrani dan. */
