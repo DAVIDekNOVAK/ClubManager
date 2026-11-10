@@ -1,6 +1,6 @@
 import type { Vloga } from '@prisma/client';
 import type { Request, RequestHandler } from 'express';
-import { dan } from './datumi.js';
+import { dan, dodajDni } from './datumi.js';
 import { neprijavljen, prepovedano } from './errors.js';
 import { asinh } from './http.js';
 import { prisma } from './prisma.js';
@@ -115,4 +115,29 @@ export async function veljavniIgralci(ekipaId: number, sezonaId: number, naDan: 
 /** Sezona, v katero spada izbrani dan. */
 export function sezonaZaDan(naDan: Date) {
   return prisma.sezona.findFirst({ where: { datumZacetka: { lte: naDan }, datumKonca: { gte: naDan } } });
+}
+
+/**
+ * Pogoj za aktivnosti (treninge, tekme), ki jih uporabnik vidi v razporedu: aktivnost mora
+ * pripadati ekipi in sezoni njegovega članstva ter biti med datumom pridružitve in datumom
+ * odhoda. Po odhodu zato ne vidi več prihodnjih aktivnosti ekipe (US-03, AC 4).
+ */
+export async function pogojVidnosti(uporabnik: PrijavljenUporabnik, polje: 'zacetek' | 'datumInUra') {
+  if (uporabnik.jeAdministrator) return {};
+  const clanstva = await prisma.clanstvoVEkipi.findMany({
+    where: { uporabnikId: uporabnik.id },
+    select: { ekipaId: true, sezonaId: true, datumPridruzitve: true, datumOdhoda: true },
+  });
+  // Brez članstev uporabnik ne vidi ničesar (pogoj, ki ne ustreza nobeni vrstici).
+  if (clanstva.length === 0) return { id: -1 };
+  return {
+    OR: clanstva.map((c) => ({
+      ekipaId: c.ekipaId,
+      sezonaId: c.sezonaId,
+      [polje]: {
+        gte: c.datumPridruzitve,
+        ...(c.datumOdhoda ? { lt: dodajDni(c.datumOdhoda, 1) } : {}),
+      },
+    })),
+  };
 }
