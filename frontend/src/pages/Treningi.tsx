@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../api';
 import { useUporabnik } from '../auth';
 import { ObrazecTreninga, terminTreninga, ZnackaTreninga } from '../components/treningi';
@@ -76,7 +77,9 @@ export function Treningi() {
                 {treningi.podatki.map((t) => (
                   <tr key={t.id}>
                     <td className={t.status === 'ODPOVEDAN' ? 'precrtano' : undefined}>
-                      <strong>{terminTreninga(t)}</strong>
+                      <Link to={`/treningi/${t.id}`}>
+                        <strong>{terminTreninga(t)}</strong>
+                      </Link>
                       {t.vsebina && <div className="tiho majhno">{t.vsebina}</div>}
                     </td>
                     <td>{t.ekipa.naziv}</td>

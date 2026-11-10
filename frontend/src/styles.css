@@ -328,8 +328,12 @@ th.razvrsti {
 th.razvrsti:hover {
   color: var(--besedilo);
 }
-tbody tr:last-child td {
+tbody tr:last-child td,
+tbody tr:last-child th {
   border-bottom: none;
+}
+tbody th {
+  width: 160px;
 }
 tr.klik {
   cursor: pointer;
