@@ -3,6 +3,7 @@ import { Postavitev } from './components/Postavitev';
 import { Domov } from './pages/Domov';
 import { EkipaPodrobnosti } from './pages/EkipaPodrobnosti';
 import { Ekipe } from './pages/Ekipe';
+import { NasprotniKlubi } from './pages/NasprotniKlubi';
 import { NiNajdeno } from './pages/NiNajdeno';
 import { Povabila } from './pages/Povabila';
 import { Prijava } from './pages/Prijava';
@@ -28,6 +29,7 @@ export function App() {
         <Route path="treningi" element={<Treningi />} />
         <Route path="treningi/:id" element={<TreningPodrobnosti />} />
         <Route path="treningi/:id/prisotnost" element={<Prisotnost />} />
+        <Route path="nasprotni-klubi" element={<NasprotniKlubi />} />
         <Route path="sezone" element={<Sezone />} />
         <Route path="povabila" element={<Povabila />} />
         <Route path="*" element={<NiNajdeno />} />

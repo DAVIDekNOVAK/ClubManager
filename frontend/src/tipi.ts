@@ -149,3 +149,10 @@ export interface Trening {
   /** Povzetek prijav – samo za trenerja ekipe in administratorja. */
   povzetek: PovzetekPrijav | null;
 }
+
+export interface NasprotniKlub {
+  id: number;
+  naziv: string;
+  kraj: string;
+  steviloTekem: number;
+}

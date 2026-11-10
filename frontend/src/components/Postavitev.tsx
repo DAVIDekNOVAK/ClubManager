@@ -6,7 +6,7 @@ import { useAuth } from '../auth';
  * z uporabnikom in vsebina. Neprijavljene preusmeri na prijavo.
  */
 export function Postavitev() {
-  const { uporabnik, nalaganje, odjava } = useAuth();
+  const { uporabnik, nalaganje, odjava, imaVlogo } = useAuth();
   const lokacija = useLocation();
   const navigate = useNavigate();
 
@@ -33,6 +33,7 @@ export function Postavitev() {
           </NavLink>
           <NavLink to="/treningi">Treningi</NavLink>
           <NavLink to="/ekipe">Ekipe</NavLink>
+          {imaVlogo('VODJA_EKIPE') && <NavLink to="/nasprotni-klubi">Nasprotni klubi</NavLink>}
           {uporabnik.jeAdministrator && (
             <>
               <span className="meni-naslov">Upravljanje</span>
