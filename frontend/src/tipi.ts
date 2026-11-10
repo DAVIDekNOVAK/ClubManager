@@ -256,3 +256,28 @@ export interface SpremembaTekme {
   /** Kratek opis razlik med starim in novim poročilom. */
   spremembe: string[];
 }
+
+export interface StatistikaIgralca {
+  nastopi: number;
+  zacetnePostave: number;
+  minute: number;
+  goli: number;
+  asistence: number;
+  rumeniKartoni: number;
+  rdeciKartoni: number;
+  treningiIzvedeni: number;
+  treningiPrisoten: number;
+  /** Odstotek prisotnosti na treningih; `null`, če ni izvedenih treningov. */
+  prisotnost: number | null;
+}
+export interface OsebnaStatistika {
+  igralec: { id: number; ime: string; priimek: string };
+  sezone: { id: number; naziv: string; status: StatusSezone }[];
+  ekipe: { id: number; naziv: string }[];
+  sezonaId: number | null;
+  ekipaId: number | null;
+  statistika: StatistikaIgralca | null;
+  imaPodatke: boolean;
+  poSezonah: { sezona: { id: number; naziv: string }; statistika: StatistikaIgralca }[];
+}
+export const odstotek = (v: number | null) => (v === null ? '–' : `${v} %`);
