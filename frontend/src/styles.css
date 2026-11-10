@@ -624,3 +624,82 @@ th.stevilo {
   margin-top: 0.6rem;
   background: #fafdfb;
 }
+
+/* Evidentiranje prisotnosti (WF-02) */
+.povzetek-prijav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.povzetek {
+  display: flex;
+  flex-direction: column;
+  background: var(--povrsina);
+  border: 1px solid var(--rob);
+  border-left: 5px solid var(--rob);
+  border-radius: var(--polmer);
+  padding: 0.75rem 1rem;
+}
+.povzetek.zelen {
+  border-left-color: var(--zelena);
+}
+.povzetek.zelen .kazalnik-vrednost {
+  color: var(--zelena);
+}
+.povzetek.rdec {
+  border-left-color: var(--rdeca);
+}
+.povzetek.rdec .kazalnik-vrednost {
+  color: var(--rdeca);
+}
+.povzetek.siv {
+  border-left-color: #8b9692;
+}
+.povzetek.siv .kazalnik-vrednost {
+  color: #6c7773;
+}
+.oznaci-vse {
+  background: var(--zelena-svetla);
+  border: 2px solid var(--zelena);
+  color: var(--zelena-temna);
+  font-weight: 700;
+  border-radius: var(--polmer);
+}
+.segmenti {
+  display: inline-flex;
+  border: 1px solid var(--rob);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.segment {
+  border: none;
+  border-right: 1px solid var(--rob);
+  background: #fff;
+  color: var(--besedilo-tiho);
+  font: inherit;
+  font-size: 0.88rem;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+}
+.segment:last-child {
+  border-right: none;
+}
+.segment:disabled {
+  cursor: not-allowed;
+}
+.segment-da {
+  background: var(--zelena);
+  color: #fff;
+  font-weight: 600;
+}
+.segment-opraviceno {
+  background: #c88a00;
+  color: #fff;
+  font-weight: 600;
+}
+.segment-ne {
+  background: #d14a42;
+  color: #fff;
+  font-weight: 600;
+}
