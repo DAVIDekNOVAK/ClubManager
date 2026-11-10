@@ -41,17 +41,24 @@ export function TekmaPodrobnosti() {
           </>
         }
         dejanja={
-          lahkoUreja &&
-          !urejanje && (
-            <>
-              <button className="gumb" onClick={() => { setUrejanje(true); setUspeh(null); }}>
-                Uredi
-              </button>
-              <button className="gumb gumb-nevaren" onClick={() => setPotrditevOdpovedi(true)}>
-                Odpovej
-              </button>
-            </>
-          )
+          <>
+            {/* Poročilo lahko odpre trener po terminu tekme; zaključeno poročilo vidijo vsi člani ekipe (US-11). */}
+            {((t.jeTrener && t.terminJeMinil && t.status !== 'ODPOVEDANA') || t.status === 'ZAKLJUCENA') && (
+              <Link className={`gumb${t.jeTrener && t.status !== 'ZAKLJUCENA' ? ' gumb-glavni' : ''}`} to={`/tekme/${t.id}/porocilo`}>
+                {t.status === 'ZAKLJUCENA' ? 'Poročilo o tekmi' : 'Vnesi poročilo'}
+              </Link>
+            )}
+            {lahkoUreja && !urejanje && (
+              <>
+                <button className="gumb" onClick={() => { setUrejanje(true); setUspeh(null); }}>
+                  Uredi
+                </button>
+                <button className="gumb gumb-nevaren" onClick={() => setPotrditevOdpovedi(true)}>
+                  Odpovej
+                </button>
+              </>
+            )}
+          </>
         }
       />
       {uspeh && <Obvestilo vrsta="uspeh">{uspeh}</Obvestilo>}

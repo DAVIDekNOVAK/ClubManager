@@ -771,3 +771,77 @@ th.stevilo {
   padding: 0.45rem 0;
   border-bottom: 1px solid var(--rob) !important;
 }
+
+/* Poročilo o tekmi (WF-03) */
+.semafor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: #10291d;
+  color: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.semafor-ekipa {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+}
+.semafor-ekipa strong {
+  font-size: 1.3rem;
+}
+.semafor-ekipa span {
+  color: #a9c7b7;
+  font-size: 0.85rem;
+}
+.semafor input[type='number'] {
+  width: 72px;
+  height: 64px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--besedilo);
+}
+.semafor-locilo {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.postava > li.postava-vrstica {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  flex-wrap: wrap;
+}
+.postava-ime {
+  flex: 1;
+  min-width: 120px;
+  font-weight: 500;
+}
+input.minute {
+  width: 68px;
+  text-align: center;
+  padding: 0.3rem;
+}
+.dodaj-igralca {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding: 0.6rem;
+  border: 2px dashed var(--zelena);
+  border-radius: var(--polmer);
+}
+.preverjanje-ok {
+  color: var(--zelena-temna);
+  font-weight: 600;
+}
+.preverjanje-napaka {
+  color: var(--rdeca);
+  font-weight: 600;
+}
