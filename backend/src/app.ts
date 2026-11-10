@@ -10,6 +10,7 @@ import { javnaPovabilaRouter } from './modules/povabila/javno.js';
 import { povabilaRouter } from './modules/povabila/routes.js';
 import { sezoneRouter } from './modules/sezone/routes.js';
 import { treningiRouter } from './modules/treningi/routes.js';
+import { udelezbaRouter } from './modules/treningi/udelezba.js';
 import { urejanjeTreningovRouter } from './modules/treningi/urejanje.js';
 import { uporabnikiRouter } from './modules/uporabniki/routes.js';
 
@@ -43,6 +44,7 @@ export function ustvariAplikacijo() {
   api.use('/povabila', povabilaRouter);
   api.use('/treningi', treningiRouter);
   api.use('/treningi', urejanjeTreningovRouter);
+  api.use('/treningi', udelezbaRouter);
 
   app.use('/api', api);
   app.use(neznanaPot);
