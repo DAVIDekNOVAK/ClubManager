@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { useUporabnik } from '../auth';
+import { ZgodovinaRazpolozljivosti } from '../components/razpolozljivost';
 import { GlavaStrani, Kartica, Stanje, useNalozi, Znacka } from '../components/ui';
 import { datum } from '../format';
 import { polnoIme, VLOGE, type Profil } from '../tipi';
@@ -58,6 +59,8 @@ export function ProfilStran() {
           </div>
         )}
       </Kartica>
+      {/* Zgodovino razpoložljivosti igralec vidi na svojem profilu (US-16, AC 2). */}
+      {profil.id === jaz.id && profil.clanstva.some((c) => c.vloge.includes('IGRALEC')) && <ZgodovinaRazpolozljivosti />}
     </>
   );
 }
