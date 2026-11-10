@@ -1,7 +1,10 @@
 import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
 
-/** Skupna postavitev zaščitenih strani: glava z navigacijo in vsebina. Neprijavljene preusmeri na prijavo. */
+/**
+ * Skupna postavitev zaščitenih strani po wireframih: stranski meni, zgornja vrstica
+ * z uporabnikom in vsebina. Neprijavljene preusmeri na prijavo.
+ */
 export function Postavitev() {
   const { uporabnik, nalaganje, odjava } = useAuth();
   const lokacija = useLocation();
@@ -15,34 +18,49 @@ export function Postavitev() {
     navigate('/prijava', { replace: true });
   }
 
+  const zacetnici = `${uporabnik.ime[0] ?? ''}${uporabnik.priimek[0] ?? ''}`.toUpperCase();
+
   return (
     <div className="aplikacija">
-      <header className="glava">
+      <aside className="stranska">
         <NavLink to="/" className="logotip">
-          ⚽ ClubManager
+          <span className="logotip-znak">⚽</span> ClubManager
         </NavLink>
-        <nav className="navigacija">
+        <nav className="navigacija" aria-label="Glavni meni">
+          <span className="meni-naslov">Meni</span>
           <NavLink to="/" end>
             Nadzorna plošča
           </NavLink>
           <NavLink to="/treningi">Treningi</NavLink>
           <NavLink to="/ekipe">Ekipe</NavLink>
-          {uporabnik.jeAdministrator && <NavLink to="/sezone">Sezone</NavLink>}
-          {uporabnik.jeAdministrator && <NavLink to="/povabila">Povabila</NavLink>}
+          {uporabnik.jeAdministrator && (
+            <>
+              <span className="meni-naslov">Upravljanje</span>
+              <NavLink to="/sezone">Sezone</NavLink>
+              <NavLink to="/povabila">Povabila</NavLink>
+            </>
+          )}
         </nav>
-        <div className="glava-uporabnik">
-          <NavLink to="/profil">
-            {uporabnik.ime} {uporabnik.priimek}
-            {uporabnik.jeAdministrator && ' (administrator)'}
+        <button className="odjava" onClick={obOdjavi}>
+          ↩ Odjava
+        </button>
+      </aside>
+      <div className="glavni-del">
+        <header className="glava">
+          <NavLink to="/profil" className="glava-uporabnik">
+            <span className="avatar">{zacetnici}</span>
+            <span>
+              <strong>
+                {uporabnik.ime} {uporabnik.priimek}
+              </strong>
+              {uporabnik.jeAdministrator && <span className="tiho majhno"> · administrator</span>}
+            </span>
           </NavLink>
-          <button className="gumb gumb-majhen" onClick={obOdjavi}>
-            Odjava
-          </button>
-        </div>
-      </header>
-      <main className="vsebina">
-        <Outlet />
-      </main>
+        </header>
+        <main className="vsebina">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
