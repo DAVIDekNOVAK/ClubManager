@@ -6,6 +6,7 @@ import { csrfZascita, sejeMiddleware } from './modules/auth/seja.js';
 import { clanstvaEkipe, clanstvaRouter } from './modules/clanstva/routes.js';
 import { ekipeRouter } from './modules/ekipe/routes.js';
 import { healthRouter } from './modules/health/routes.js';
+import { javnaPovabilaRouter } from './modules/povabila/javno.js';
 import { povabilaRouter } from './modules/povabila/routes.js';
 import { sezoneRouter } from './modules/sezone/routes.js';
 import { uporabnikiRouter } from './modules/uporabniki/routes.js';
@@ -28,6 +29,7 @@ export function ustvariAplikacijo() {
     next();
   });
   api.use('/auth', authRouter);
+  api.use('/povabila/zeton', javnaPovabilaRouter);
 
   // Vse poti od tu naprej zahtevajo prijavo.
   api.use(zahtevajPrijavo);
