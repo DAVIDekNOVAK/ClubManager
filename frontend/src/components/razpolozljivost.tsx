@@ -44,11 +44,12 @@ export function MojaRazpolozljivostKartica() {
       api.post('/razpolozljivost', { status: status || undefined, veljaOd: veljaOd || undefined, veljaDo: veljaDo || null }),
     );
     if (ok) {
-      setUspeh(true);
       setStatus('');
       setVeljaOd(danes());
       setVeljaDo('');
+      // Najprej osvežimo prikaz trenutnega statusa, šele nato potrdimo uspeh.
       await razp.osvezi();
+      setUspeh(true);
     }
   }
 
