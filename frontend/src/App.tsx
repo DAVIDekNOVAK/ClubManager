@@ -12,6 +12,7 @@ import { Prisotnost } from './pages/Prisotnost';
 import { Registracija } from './pages/Registracija';
 import { ProfilStran } from './pages/Profil';
 import { Sezone } from './pages/Sezone';
+import { StatistikaEkipeStran } from './pages/StatistikaEkipe';
 import { StatistikaIgralcaStran } from './pages/StatistikaIgralca';
 import { TekmaPodrobnosti } from './pages/TekmaPodrobnosti';
 import { Tekme } from './pages/Tekme';
@@ -28,6 +29,7 @@ export function App() {
         <Route index element={<Domov />} />
         <Route path="ekipe" element={<Ekipe />} />
         <Route path="ekipe/:id" element={<EkipaPodrobnosti />} />
+        <Route path="ekipe/:id/statistika" element={<StatistikaEkipeStran />} />
         <Route path="profil" element={<ProfilStran />} />
         <Route path="uporabniki/:id" element={<ProfilStran />} />
         <Route path="treningi" element={<Treningi />} />

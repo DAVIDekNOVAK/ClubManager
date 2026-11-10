@@ -281,3 +281,15 @@ export interface OsebnaStatistika {
   poSezonah: { sezona: { id: number; naziv: string }; statistika: StatistikaIgralca }[];
 }
 export const odstotek = (v: number | null) => (v === null ? '–' : `${v} %`);
+
+export type VrsticaIgralca = { igralecId: number; ime: string; priimek: string } & StatistikaIgralca;
+export interface StatistikaEkipe {
+  ekipa: { id: number; naziv: string; jeArhivirana: boolean };
+  sezonaId: number;
+  sezone: { id: number; naziv: string; status: StatusSezone }[];
+  vrstaTekmovanja: VrstaTekmovanja | null;
+  povzetek: { tekme: number; zmage: number; remiji: number; porazi: number; daniGoli: number; prejetiGoli: number; povprecnaPrisotnost: number | null };
+  zadnjeTekme: { id: number; datumInUra: string; nasprotnik: string; nasiGoli: number; goliNasprotnika: number; izid: 'Z' | 'R' | 'P' }[];
+  najboljsiStrelec: { ime: string; priimek: string; goli: number } | null;
+  igralci: VrsticaIgralca[];
+}

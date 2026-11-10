@@ -69,6 +69,11 @@ export function EkipaPodrobnosti() {
         dejanja={
           <>
             <IzbiraSezone sezone={sezone} vrednost={sezonaId} obSpremembi={setSezonaId} />
+            {vidiRazpolozljivost && (
+              <Link className="gumb" to={`/ekipe/${e.id}/statistika`}>
+                Statistika ekipe
+              </Link>
+            )}
             {jeAdmin && !e.jeArhivirana && (
               <button className="gumb gumb-nevaren" onClick={() => setPotrditevArhiva(true)}>
                 Arhiviraj
