@@ -40,7 +40,8 @@ ekipeRouter.get(
     const uporabnik = trenutni(req);
     const ekipe = await prisma.ekipa.findMany({
       where: {
-        jeArhivirana: false,
+        // Privzeto samo aktivne ekipe; filter »Arhivirane« prikaže arhivirane (US-04, AC 2).
+        jeArhivirana: req.query.arhivirane === 'true',
         ...(uporabnik.jeAdministrator ? {} : { clanstva: { some: { uporabnikId: uporabnik.id } } }),
       },
     });
@@ -72,6 +73,38 @@ ekipeRouter.post(
     res.status(201).json({ ...ekipa, steviloClanov: 0 });
   }),
 );
+
+// Arhiviranje ekipe ne izbriše ničesar – treningi, tekme in statistika ostanejo (US-04, AC 4).
+ekipeRouter.post(
+  '/:id/arhiviraj',
+  zahtevajAdministratorja,
+  asinh(async (req, res) => {
+    const id = idIzPoti(req);
+    if (!(await prisma.ekipa.findUnique({ where: { id } }))) throw niNajdeno('Ekipa');
+    res.json(await prisma.ekipa.update({ where: { id }, data: { jeArhivirana: true } }));
+  }),
+);
+
+ekipeRouter.post(
+  '/:id/aktiviraj',
+  zahtevajAdministratorja,
+  asinh(async (req, res) => {
+    const id = idIzPoti(req);
+    const ekipa = await prisma.ekipa.findUnique({ where: { id } });
+    if (!ekipa) throw niNajdeno('Ekipa');
+    // Med arhiviranjem je lahko nastala nova ekipa z enakim nazivom.
+    await preveriUnikatenNaziv(ekipa.naziv, id);
+    res.json(await prisma.ekipa.update({ where: { id }, data: { jeArhivirana: false } }));
+  }),
+);
+
+/** Vrne ekipo, če obstaja in ni arhivirana; za arhivirano ekipo ni mogoče ustvarjati novih aktivnosti (US-04, AC 3). */
+export async function zahtevajAktivnoEkipo(ekipaId: number) {
+  const ekipa = await prisma.ekipa.findUnique({ where: { id: ekipaId } });
+  if (!ekipa) throw niNajdeno('Ekipa');
+  if (ekipa.jeArhivirana) throw konflikt('Ekipa je arhivirana, zato zanjo ni mogoče ustvarjati novih treningov in tekem');
+  return ekipa;
+}
 
 /** Naziv mora biti unikaten med nearhiviranimi ekipami, ne glede na velike/male črke (US-02, AC 2). */
 export async function preveriUnikatenNaziv(naziv: string, razenId?: number) {
