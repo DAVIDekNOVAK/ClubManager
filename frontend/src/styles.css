@@ -845,3 +845,33 @@ input.minute {
   color: var(--rdeca);
   font-weight: 600;
 }
+
+.dogodki > li.dogodek {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+}
+.dogodek-minuta {
+  width: 2.6rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.dogodek-opis {
+  flex: 1;
+}
+.nov-dogodek {
+  background: var(--ozadje);
+  border-radius: var(--polmer);
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+}
+.nov-dogodek-polja {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.nov-dogodek-polja select {
+  flex: 1;
+  min-width: 120px;
+}

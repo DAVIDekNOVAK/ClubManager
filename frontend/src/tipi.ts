@@ -223,11 +223,27 @@ export interface IgralecPorocila {
   /** Igralec je na dan tekme poškodovan ali odsoten – pred izbiro je treba potrditi opozorilo. */
   zahtevaPotrditev: boolean;
 }
+export type VrstaDogodka = 'GOL' | 'RUMENI_KARTON' | 'RDECI_KARTON' | 'MENJAVA';
+export const VRSTE_DOGODKOV: Record<VrstaDogodka, string> = {
+  GOL: 'Gol',
+  RUMENI_KARTON: 'Rumeni karton',
+  RDECI_KARTON: 'Rdeči karton',
+  MENJAVA: 'Menjava',
+};
+/** Pri golu je `asistentId` igralec z asistenco; pri menjavi `igralecId` zapusti igrišče, `vstopilIgralecId` vstopi. */
+export interface Dogodek {
+  vrsta: VrstaDogodka;
+  igralecId: number;
+  minuta: number;
+  asistentId: number | null;
+  vstopilIgralecId: number | null;
+}
 export interface PorociloTekme {
   tekma: Tekma;
   nasiGoli: number | null;
   goliNasprotnika: number | null;
   nastopi: Nastop[];
+  dogodki: Dogodek[];
   igralci: IgralecPorocila[];
   preverjanje: string[];
 }
