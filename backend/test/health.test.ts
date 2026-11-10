@@ -12,9 +12,11 @@ describe('ogrodje API', () => {
   });
 
   it('neznana pot vrne 404 v obliki JSON', async () => {
-    const odgovor = await request(app).get('/api/ne-obstaja');
+    const odgovor = await request(app).get('/ne-obstaja');
     expect(odgovor.status).toBe(404);
     expect(odgovor.body.napaka).toContain('ne obstaja');
+    // Neznane poti API-ja neprijavljenemu ne razkrijejo, ali obstajajo.
+    expect((await request(app).get('/api/ne-obstaja')).status).toBe(401);
   });
 
   it('neveljaven JSON vrne 400', async () => {
