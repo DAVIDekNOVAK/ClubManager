@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../api';
 import { useUporabnik } from '../auth';
 import { GlavaStrani, Kartica, Obvestilo, Polje, Stanje, useNalozi, useOddaja, Znacka } from '../components/ui';
@@ -54,7 +55,9 @@ export function Ekipe() {
                 {ekipe.map((e) => (
                   <tr key={e.id}>
                     <td>
-                      <strong>{e.naziv}</strong>
+                      <Link to={`/ekipe/${e.id}`}>
+                        <strong>{e.naziv}</strong>
+                      </Link>
                     </td>
                     <td>{KATEGORIJE[e.kategorija]}</td>
                     <td className="stevilo">{e.steviloClanov}</td>

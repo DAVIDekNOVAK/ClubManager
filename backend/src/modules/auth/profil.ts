@@ -1,5 +1,6 @@
 import { dan } from '../../common/datumi.js';
 import { prisma } from '../../common/prisma.js';
+import { poNazivu } from '../../common/razvrsti.js';
 
 /** Podatki prijavljenega uporabnika z njegovimi članstvi in seznamom trenutnih ekip. */
 export async function profilUporabnika(uporabnikId: number) {
@@ -12,7 +13,6 @@ export async function profilUporabnika(uporabnikId: number) {
       ePosta: true,
       jeAdministrator: true,
       clanstva: {
-        orderBy: [{ sezona: { datumZacetka: 'desc' } }, { ekipa: { naziv: 'asc' } }],
         select: {
           id: true,
           datumPridruzitve: true,
@@ -27,12 +27,15 @@ export async function profilUporabnika(uporabnikId: number) {
   if (!uporabnik) return null;
 
   const danes = dan();
-  const clanstva = uporabnik.clanstva.map((c) => ({
-    ...c,
-    vloge: c.vloge.map((v) => v.vloga),
-    // Članstvo je aktivno, če uporabnik še ni odšel in sezona še ni končana.
-    jeAktivno: (c.datumOdhoda === null || c.datumOdhoda >= danes) && c.sezona.datumKonca >= danes,
-  }));
+  const clanstva = uporabnik.clanstva
+    .map((c) => ({
+      ...c,
+      vloge: c.vloge.map((v) => v.vloga),
+      // Članstvo je aktivno, če uporabnik še ni odšel in sezona še ni končana.
+      jeAktivno: (c.datumOdhoda === null || c.datumOdhoda >= danes) && c.sezona.datumKonca >= danes,
+    }))
+    // Najprej novejše sezone, znotraj sezone po nazivu ekipe.
+    .sort((a, b) => b.sezona.datumZacetka.getTime() - a.sezona.datumZacetka.getTime() || poNazivu(a.ekipa, b.ekipa));
 
   // Trenutne ekipe uporabnika z združenimi vlogami (nadzorna plošča, US-20).
   const ekipe = new Map<number, { id: number; naziv: string; kategorija: string; jeArhivirana: boolean; vloge: string[] }>();
@@ -43,5 +46,5 @@ export async function profilUporabnika(uporabnikId: number) {
     ekipe.set(c.ekipa.id, zapis);
   }
 
-  return { ...uporabnik, clanstva, ekipe: [...ekipe.values()] };
+  return { ...uporabnik, clanstva, ekipe: [...ekipe.values()].sort(poNazivu) };
 }
