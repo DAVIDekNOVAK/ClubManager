@@ -10,6 +10,7 @@ import { Registracija } from './pages/Registracija';
 import { ProfilStran } from './pages/Profil';
 import { Sezone } from './pages/Sezone';
 import { Treningi } from './pages/Treningi';
+import { TreningPodrobnosti } from './pages/TreningPodrobnosti';
 
 export function App() {
   return (
@@ -24,6 +25,7 @@ export function App() {
         <Route path="profil" element={<ProfilStran />} />
         <Route path="uporabniki/:id" element={<ProfilStran />} />
         <Route path="treningi" element={<Treningi />} />
+        <Route path="treningi/:id" element={<TreningPodrobnosti />} />
         <Route path="sezone" element={<Sezone />} />
         <Route path="povabila" element={<Povabila />} />
         <Route path="*" element={<NiNajdeno />} />
