@@ -80,3 +80,21 @@ export interface EkipaPodrobno extends EkipaKratko {
   mojeVloge: Vloga[];
 }
 export const polnoIme = (u: { ime: string; priimek: string }) => `${u.ime} ${u.priimek}`;
+
+export type StatusPovabila = 'POSLANO' | 'SPREJETO' | 'POTEKLO';
+export interface Povabilo {
+  id: number;
+  ePosta: string;
+  vloga: Vloga;
+  poslanoOb: string;
+  datumPoteka: string;
+  datumSprejetja: string | null;
+  ekipa: { id: number; naziv: string };
+  sezona: { id: number; naziv: string };
+  status: StatusPovabila;
+}
+export const STATUSI_POVABILA: Record<StatusPovabila, { naziv: string; barva: 'modra' | 'zelena' | 'siva' }> = {
+  POSLANO: { naziv: 'Poslano', barva: 'modra' },
+  SPREJETO: { naziv: 'Sprejeto', barva: 'zelena' },
+  POTEKLO: { naziv: 'Poteklo', barva: 'siva' },
+};

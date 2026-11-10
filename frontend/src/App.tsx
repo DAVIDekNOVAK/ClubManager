@@ -4,6 +4,7 @@ import { Domov } from './pages/Domov';
 import { EkipaPodrobnosti } from './pages/EkipaPodrobnosti';
 import { Ekipe } from './pages/Ekipe';
 import { NiNajdeno } from './pages/NiNajdeno';
+import { Povabila } from './pages/Povabila';
 import { Prijava } from './pages/Prijava';
 import { ProfilStran } from './pages/Profil';
 import { Sezone } from './pages/Sezone';
@@ -20,6 +21,7 @@ export function App() {
         <Route path="profil" element={<ProfilStran />} />
         <Route path="uporabniki/:id" element={<ProfilStran />} />
         <Route path="sezone" element={<Sezone />} />
+        <Route path="povabila" element={<Povabila />} />
         <Route path="*" element={<NiNajdeno />} />
       </Route>
     </Routes>

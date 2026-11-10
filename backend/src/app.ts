@@ -6,6 +6,7 @@ import { csrfZascita, sejeMiddleware } from './modules/auth/seja.js';
 import { clanstvaEkipe, clanstvaRouter } from './modules/clanstva/routes.js';
 import { ekipeRouter } from './modules/ekipe/routes.js';
 import { healthRouter } from './modules/health/routes.js';
+import { povabilaRouter } from './modules/povabila/routes.js';
 import { sezoneRouter } from './modules/sezone/routes.js';
 import { uporabnikiRouter } from './modules/uporabniki/routes.js';
 
@@ -35,6 +36,7 @@ export function ustvariAplikacijo() {
   api.use('/ekipe', ekipeRouter);
   api.use('/clanstva', clanstvaRouter);
   api.use('/uporabniki', uporabnikiRouter);
+  api.use('/povabila', povabilaRouter);
 
   app.use('/api', api);
   app.use(neznanaPot);
